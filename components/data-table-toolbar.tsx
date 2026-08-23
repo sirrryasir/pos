@@ -21,6 +21,7 @@ interface DataTableToolbarProps {
     filterOptions?: string[];
     filterValue?: string;
     onFilterChange?: (value: string) => void;
+    onExport?: (type: 'excel' | 'pdf') => void;
 }
 
 export function DataTableToolbar({
@@ -32,6 +33,7 @@ export function DataTableToolbar({
     filterOptions = [],
     filterValue = "all",
     onFilterChange,
+    onExport,
 }: DataTableToolbarProps) {
     return (
         <div className="flex items-center justify-between p-4 border-b border-border/30 bg-card">
@@ -79,10 +81,30 @@ export function DataTableToolbar({
                     </DropdownMenu>
                 )}
                 {showExport && (
-                    <Button variant="outline" size="sm" className="h-9 px-3 border-border/50 text-[13px] hover:bg-muted/50 text-foreground font-medium">
-                        <Download className="mr-2 h-3.5 w-3.5" strokeWidth={1.5} />
-                        Export
-                    </Button>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline" size="sm" className="h-9 px-3 border-border/50 text-[13px] hover:bg-muted/50 text-foreground font-medium">
+                                <Download className="mr-2 h-3.5 w-3.5" strokeWidth={1.5} />
+                                Export
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-[150px]">
+                            <DropdownMenuLabel>Export As</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuCheckboxItem 
+                                className="text-[12px] cursor-pointer"
+                                onClick={() => onExport?.('excel')}
+                            >
+                                Excel (CSV)
+                            </DropdownMenuCheckboxItem>
+                            <DropdownMenuCheckboxItem 
+                                className="text-[12px] cursor-pointer"
+                                onClick={() => onExport?.('pdf')}
+                            >
+                                PDF Document
+                            </DropdownMenuCheckboxItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 )}
             </div>
         </div>

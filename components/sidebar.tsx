@@ -77,6 +77,18 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
                     <>
                         <div className="text-[11px] font-semibold text-muted-foreground mb-3 mt-6 uppercase tracking-wider px-2">Management</div>
                         <Link 
+                            href="/reports"
+                            onClick={onClose}
+                            className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all ${
+                                pathname === "/reports" 
+                                    ? "bg-primary text-primary-foreground shadow-sm shadow-primary/20 font-semibold" 
+                                    : "text-muted-foreground hover:text-foreground hover:bg-muted/80"
+                            }`}
+                        >
+                            <LayoutGrid className="h-4 w-4" strokeWidth={pathname === "/reports" ? 2 : 1.5} />
+                            Reports
+                        </Link>
+                        <Link 
                             href="/users"
                             onClick={onClose}
                             className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all ${

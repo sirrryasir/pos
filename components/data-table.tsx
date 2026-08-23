@@ -58,6 +58,50 @@ export function DataTable<T>({
     const totalItems = processedData.length;
     const paginatedData = processedData.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
 
+    const handleExport = (type: 'excel' | 'pdf') => {
+        if (type === 'excel') {
+            import("papaparse").then((Papa) => {
+                const csv = Papa.unparse(processedData.map((item: any) => {
+                    const row: Record<string, any> = {};
+                    columns.forEach((col) => {
+                        if (col.accessorKey) {
+                            row[col.header] = item[col.accessorKey];
+                        }
+                    });
+                    return row;
+                }));
+                const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.setAttribute("href", url);
+                link.setAttribute("download", "export.csv");
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+        } else if (type === 'pdf') {
+            import("jspdf").then((jsPDF) => {
+                import("jspdf-autotable").then((autoTable) => {
+                    const doc = new jsPDF.default();
+                    const tableColumn = columns.filter(col => col.accessorKey).map(col => col.header);
+                    const tableRows = processedData.map((item: any) => {
+                        return columns.filter(col => col.accessorKey).map(col => {
+                            const val = item[col.accessorKey!];
+                            return typeof val === 'object' ? JSON.stringify(val) : String(val ?? "-");
+                        });
+                    });
+                    
+                    autoTable.default(doc, {
+                        head: [tableColumn],
+                        body: tableRows,
+                    });
+                    
+                    doc.save("export.pdf");
+                });
+            });
+        }
+    };
+
     return (
         <div className="flex flex-col h-full">
             <DataTableToolbar 
@@ -75,6 +119,7 @@ export function DataTable<T>({
                     setPageIndex(0);
                 }}
                 showExport={showExport}
+                onExport={handleExport}
             />
             
             <div className="flex-1 overflow-x-auto">
