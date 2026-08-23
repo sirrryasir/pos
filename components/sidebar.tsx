@@ -39,8 +39,8 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
     const isAdmin = (session?.user as any)?.role === "admin";
 
     return (
-        <aside className="w-full h-full border-r border-border/50 bg-sidebar flex flex-col shadow-2xl">
-            <div className="p-5 border-b border-border/50 flex items-center justify-between gap-3">
+        <aside className="w-full h-full border-r border-border/10 bg-background flex flex-col">
+            <div className="p-5 border-b border-border/10 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                     <div className="h-8 w-8 bg-primary/20 rounded-lg flex items-center justify-center border border-primary/30">
                         <Package2 className="h-4 w-4 text-primary" strokeWidth={1.5} />
@@ -60,8 +60,8 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
                 )}
             </div>
             
-            <nav className="flex-1 px-3 py-5 space-y-1 overflow-y-auto">
-                <div className="text-[11px] font-semibold text-muted-foreground mb-3 uppercase tracking-wider px-2">Main Menu</div>
+            <nav className="flex-1 px-3 py-5 space-y-0.5 overflow-y-auto">
+                <div className="text-[10px] font-semibold text-muted-foreground/70 mb-3 uppercase tracking-wider px-2">Main Menu</div>
                 {navItems.map((item) => {
                     const Icon = item.icon;
                     const isActive = pathname === item.href;
@@ -70,13 +70,13 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
                             key={item.href} 
                             href={item.href}
                             onClick={onClose}
-                            className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all ${
+                            className={`flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] transition-all duration-200 ${
                                 isActive 
-                                    ? "bg-primary text-primary-foreground shadow-sm shadow-primary/20 font-semibold" 
-                                    : "text-muted-foreground hover:text-foreground hover:bg-muted/80"
+                                    ? "bg-muted/80 text-foreground font-medium" 
+                                    : "text-muted-foreground hover:text-foreground hover:bg-muted/40 font-normal"
                             }`}
                         >
-                            <Icon className="h-4 w-4" strokeWidth={isActive ? 2 : 1.5} />
+                            <Icon className={`h-4 w-4 ${isActive ? "text-primary" : "text-muted-foreground/70"}`} strokeWidth={isActive ? 2 : 1.5} />
                             {item.label}
                         </Link>
                     );
@@ -84,36 +84,36 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
 
                 {isAdmin && (
                     <>
-                        <div className="text-[11px] font-semibold text-muted-foreground mb-3 mt-6 uppercase tracking-wider px-2">Management</div>
+                        <div className="text-[10px] font-semibold text-muted-foreground/70 mb-3 mt-6 uppercase tracking-wider px-2">Management</div>
                         <Link 
                             href="/reports"
                             onClick={onClose}
-                            className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all ${
+                            className={`flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] transition-all duration-200 ${
                                 pathname === "/reports" 
-                                    ? "bg-primary text-primary-foreground shadow-sm shadow-primary/20 font-semibold" 
-                                    : "text-muted-foreground hover:text-foreground hover:bg-muted/80"
+                                    ? "bg-muted/80 text-foreground font-medium" 
+                                    : "text-muted-foreground hover:text-foreground hover:bg-muted/40 font-normal"
                             }`}
                         >
-                            <LayoutGrid className="h-4 w-4" strokeWidth={pathname === "/reports" ? 2 : 1.5} />
+                            <LayoutGrid className={`h-4 w-4 ${pathname === "/reports" ? "text-primary" : "text-muted-foreground/70"}`} strokeWidth={pathname === "/reports" ? 2 : 1.5} />
                             Reports
                         </Link>
                         <Link 
                             href="/users"
                             onClick={onClose}
-                            className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all ${
+                            className={`flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] transition-all duration-200 ${
                                 pathname === "/users" 
-                                    ? "bg-primary text-primary-foreground shadow-sm shadow-primary/20 font-semibold" 
-                                    : "text-muted-foreground hover:text-foreground hover:bg-muted/80"
+                                    ? "bg-muted/80 text-foreground font-medium" 
+                                    : "text-muted-foreground hover:text-foreground hover:bg-muted/40 font-normal"
                             }`}
                         >
-                            <Users className="h-4 w-4" strokeWidth={pathname === "/users" ? 2 : 1.5} />
+                            <Users className={`h-4 w-4 ${pathname === "/users" ? "text-primary" : "text-muted-foreground/70"}`} strokeWidth={pathname === "/users" ? 2 : 1.5} />
                             Users
                         </Link>
                     </>
                 )}
             </nav>
 
-            <div className="p-3 border-t border-border/50 bg-background/30 mt-auto">
+            <div className="p-3 border-t border-border/10 mt-auto">
                 {session?.user && (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
