@@ -109,7 +109,7 @@ export default function LoginPage() {
                 </div>
                 
                 <div className="mt-8 text-center text-xs text-muted-foreground">
-                    &copy; {new Date().getFullYear()} NexaPOS Engine. All rights reserved.
+                    &copy; {new Date().getFullYear()} POS. All rights reserved.
                 </div>
             </div>
         </div>

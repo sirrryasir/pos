@@ -32,7 +32,7 @@ export function Sidebar() {
                     <Package2 className="h-6 w-6 text-primary" />
                 </div>
                 <div>
-                    <h1 className="text-lg font-bold text-foreground leading-tight tracking-tight">NexaPOS</h1>
+                    <h1 className="text-lg font-bold text-foreground leading-tight tracking-tight">POS</h1>
                     <p className="text-xs text-muted-foreground font-medium">Business Engine</p>
                 </div>
             </div>
