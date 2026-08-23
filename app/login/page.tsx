@@ -40,18 +40,18 @@ export default function LoginPage() {
             <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-primary/20 blur-[120px] rounded-full pointer-events-none" />
             <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-primary/10 blur-[120px] rounded-full pointer-events-none" />
 
-            <div className="w-full max-w-md relative z-10">
+            <div className="w-full max-w-[380px] relative z-10">
                 <div className="flex flex-col items-center mb-8">
                     <div className="h-16 w-16 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20 mb-4 shadow-[0_0_15px_rgba(var(--primary),0.1)]">
                         <Package2 className="h-8 w-8 text-primary" />
                     </div>
-                    <h1 className="text-3xl font-semibold tracking-tight text-foreground">Welcome Back</h1>
+                    <h1 className="text-2xl font-semibold tracking-tight text-foreground">Welcome Back</h1>
                     <p className="text-muted-foreground mt-2 text-sm text-center">
                         Enter your credentials to access the POS system
                     </p>
                 </div>
 
-                <div className="bg-card/50 backdrop-blur-xl border border-border/50 rounded-3xl p-8 shadow-2xl">
+                <div className="bg-card/50 backdrop-blur-xl border border-border/50 rounded-3xl p-6 sm:p-8 shadow-2xl">
                     <form onSubmit={handleLogin} className="space-y-6">
                         <div className="space-y-2">
                             <Label htmlFor="email" className="text-foreground/80">Email Address</Label>
@@ -99,7 +99,7 @@ export default function LoginPage() {
                             type="button" 
                             variant="outline"
                             onClick={() => {
-                                setEmail("test2user@pos.com");
+                                setEmail("admin@pos.com");
                                 setPassword("password123");
                             }}
                         >
