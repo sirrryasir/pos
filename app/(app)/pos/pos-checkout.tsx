@@ -81,87 +81,76 @@ export function PosCheckout({ products }: { products: Product[] }) {
     }
   };
 
-  return (
-    <div className="grid md:grid-cols-2 gap-6 w-full h-full">
-      {/* Left side: Product List */}
-      <Card className="flex flex-col h-[500px] md:h-[calc(100vh-140px)] bg-card shadow-sm border border-border/50 rounded-xl overflow-hidden">
-        <CardHeader className="border-b border-border/30 pb-4">
-          <CardTitle className="text-sm font-semibold mb-3">Products</CardTitle>
-          <div className="flex gap-2">
-            <div className="relative flex-1">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Search products..."
-                className="pl-8"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            {categories.length > 0 && (
-              <Select
-                value={selectedCategory}
-                onValueChange={(val) => setSelectedCategory(val ?? "all")}
-              >
-                <SelectTrigger className="w-[130px]">
-                  <SelectValue placeholder="Category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  {categories.map((cat) => (
-                    <SelectItem key={cat} value={cat}>
-                      {cat}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            )}
-          </div>
-        </CardHeader>
-        <CardContent className="flex-1 overflow-hidden p-0 px-4 pt-4">
-          <ScrollArea className="h-full">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-6">
-              {filteredProducts.map((product) => (
-                <div
-                  key={product.id}
-                  onClick={() => {
-                    setSelectedProductId(product.id);
-                    setQuantity(1); // Reset quantity when changing product
-                  }}
-                  className={`p-4 border border-border/30 rounded-xl cursor-pointer hover:border-primary/50 transition-colors ${selectedProductId === product.id ? "border-primary bg-primary/5" : ""}`}
-                >
-                  <h3 className="font-medium text-[13px] line-clamp-1">
-                    {product.name}
-                  </h3>
-                  <div className="flex justify-between items-center mt-2">
-                    <span className="font-semibold text-foreground text-[13px]">
-                      ${product.price.toFixed(2)}
-                    </span>
-                    <span className="text-[11px] text-muted-foreground">
-                      Stock: {product.stock}
-                    </span>
-                  </div>
+    return (
+        <div className="grid md:grid-cols-2 gap-6 w-full h-full">
+            {/* Left side: Product List */}
+            <div className="flex flex-col h-[500px] md:h-[calc(100vh-140px)]">
+                <div className="pb-4">
+                    <h2 className="text-sm font-semibold mb-3">Products</h2>
+                    <div className="flex gap-2">
+                        <div className="relative flex-1">
+                            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                            <Input
+                                type="search"
+                                placeholder="Search products..."
+                                className="pl-8 bg-card border-none shadow-sm"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                        </div>
+                        {categories.length > 0 && (
+                            <Select value={selectedCategory} onValueChange={(val) => setSelectedCategory(val ?? "all")}>
+                                <SelectTrigger className="w-[130px] bg-card border-none shadow-sm">
+                                    <SelectValue placeholder="Category" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">All Categories</SelectItem>
+                                    {categories.map(cat => (
+                                        <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        )}
+                    </div>
                 </div>
-              ))}
-              {filteredProducts.length === 0 && (
-                <div className="col-span-1 sm:col-span-2 text-center py-10 text-muted-foreground">
-                  No products found
+                <div className="flex-1 overflow-hidden pt-2">
+                    <ScrollArea className="h-full pr-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pb-6">
+                            {filteredProducts.map((product) => (
+                                <div 
+                                    key={product.id}
+                                    onClick={() => {
+                                        setSelectedProductId(product.id);
+                                        setQuantity(1); // Reset quantity when changing product
+                                    }}
+                                    className={`p-4 bg-card rounded-xl cursor-pointer hover:bg-card/80 transition-colors ${selectedProductId === product.id ? 'ring-2 ring-primary bg-primary/5' : ''}`}
+                                >
+                                    <h3 className="font-medium text-[13px] line-clamp-1">{product.name}</h3>
+                                    <div className="flex justify-between items-center mt-2">
+                                        <span className="font-semibold text-foreground text-[13px]">${product.price.toFixed(2)}</span>
+                                        <span className="text-[11px] text-muted-foreground">Stock: {product.stock}</span>
+                                    </div>
+                                </div>
+                            ))}
+                            {filteredProducts.length === 0 && (
+                                <div className="col-span-1 sm:col-span-2 text-center py-10 text-muted-foreground">
+                                    No products found
+                                </div>
+                            )}
+                        </div>
+                    </ScrollArea>
                 </div>
-              )}
             </div>
-          </ScrollArea>
-        </CardContent>
-      </Card>
 
-      {/* Right side: Checkout Cart */}
-      <Card className="flex flex-col h-[500px] md:h-[calc(100vh-140px)] bg-card shadow-sm border border-border/50 rounded-xl overflow-hidden">
-        <CardHeader className="border-b border-border/30 pb-4">
-          <CardTitle className="text-sm font-semibold">Checkout</CardTitle>
-        </CardHeader>
-        <CardContent className="flex-1 space-y-6 overflow-y-auto">
-          {selectedProduct ? (
-            <div className="space-y-6">
-              <div className="p-4 bg-muted rounded-lg flex justify-between items-center">
+            {/* Right side: Checkout Cart */}
+            <div className="flex flex-col h-[500px] md:h-[calc(100vh-140px)]">
+                <div className="pb-4">
+                    <h2 className="text-sm font-semibold">Checkout</h2>
+                </div>
+                <div className="flex-1 space-y-6 overflow-y-auto bg-card rounded-xl p-6 shadow-sm">
+                    {selectedProduct ? (
+                        <div className="space-y-6">
+                            <div className="p-4 bg-background/50 rounded-lg flex justify-between items-center">
                 <div>
                   <h3 className="font-bold text-lg">{selectedProduct.name}</h3>
                   <p className="text-sm text-muted-foreground">
@@ -222,20 +211,18 @@ export function PosCheckout({ products }: { products: Product[] }) {
               Select a product to start checkout
             </div>
           )}
-        </CardContent>
-        <CardFooter className="border-t pt-6">
-          <Button
-            className="w-full text-lg h-12"
-            size="lg"
-            onClick={handleCheckout}
-            disabled={!selectedProduct || loading}
-          >
-            {loading
-              ? "Processing..."
-              : `Process Sale ($${totalAmount.toFixed(2)})`}
-          </Button>
-        </CardFooter>
-      </Card>
-    </div>
-  );
+        </div>
+        <div className="pt-4">
+                    <Button 
+                        className="w-full text-lg h-12 rounded-xl" 
+                        size="lg"
+                        onClick={handleCheckout}
+                        disabled={!selectedProduct || loading}
+                    >
+                        {loading ? "Processing..." : `Process Sale ($${totalAmount.toFixed(2)})`}
+                    </Button>
+                </div>
+            </div>
+        </div>
+    );
 }

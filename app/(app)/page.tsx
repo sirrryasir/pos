@@ -109,8 +109,8 @@ export default async function DashboardPage() {
         </Card>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="col-span-4 bg-card shadow-sm border-border rounded-xl overflow-hidden">
+      <div className="w-full mt-8">
+        <Card className="bg-card shadow-sm border-border rounded-xl overflow-hidden w-full">
           <CardHeader className="border-b border-border/30 pb-3 pt-4">
             <CardTitle className="text-sm font-semibold">
               Recent Sales
