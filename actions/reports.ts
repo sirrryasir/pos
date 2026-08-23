@@ -9,6 +9,7 @@ export async function getReportData() {
     });
 
     const productSales: Record<string, { name: string, qty: number, total: number }> = {};
+    const categorySales: Record<string, { name: string, qty: number, total: number }> = {};
     const cashierSales: Record<string, { name: string, total: number }> = {};
     const dailyRevenue: Record<string, number> = {};
 
@@ -19,6 +20,14 @@ export async function getReportData() {
         }
         productSales[s.productId].qty += s.quantity;
         productSales[s.productId].total += s.totalAmount;
+
+        // Top Categories
+        const catName = s.product.category || "Uncategorized";
+        if (!categorySales[catName]) {
+            categorySales[catName] = { name: catName, qty: 0, total: 0 };
+        }
+        categorySales[catName].qty += s.quantity;
+        categorySales[catName].total += s.totalAmount;
 
         // Cashier Performance
         const cashierName = s.user?.name || "System";
@@ -36,8 +45,9 @@ export async function getReportData() {
     });
 
     const topProducts = Object.values(productSales).sort((a, b) => b.qty - a.qty).slice(0, 5);
+    const topCategories = Object.values(categorySales).sort((a, b) => b.qty - a.qty).slice(0, 5);
     const cashierData = Object.values(cashierSales).sort((a, b) => b.total - a.total);
     const revenueData = Object.entries(dailyRevenue).map(([date, amount]) => ({ date, amount })).sort((a, b) => a.date.localeCompare(b.date));
 
-    return { topProducts, cashierData, revenueData };
+    return { topProducts, topCategories, cashierData, revenueData };
 }
