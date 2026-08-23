@@ -87,41 +87,41 @@
 }
 
 .dark {
-  /* Dark mode equivalent for Ardaykaab premium vibe */
-  --background: oklch(0.13 0.01 260); /* Very dark, slightly tinted */
-  --foreground: oklch(0.98 0 0); /* Off white */
+  /* Dark mode equivalent for Ardaykaab/Aduunyo sleek premium vibe */
+  --background: oklch(0.145 0 0); /* Sleek charcoal background ~ #0a0a0a */
+  --foreground: oklch(0.98 0 0);
 
-  --card: oklch(0.16 0.01 260); /* Slightly lighter than background */
+  --card: oklch(0.205 0 0); /* Lighter gray for cards ~ #18181b */
   --card-foreground: oklch(0.98 0 0);
 
-  --popover: oklch(0.16 0.01 260);
+  --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.98 0 0);
 
   --primary: oklch(0.65 0.18 45); /* Orange/Amber primary */
   --primary-foreground: oklch(0.98 0 0); /* White on orange */
 
-  --secondary: oklch(0.2 0.01 260);
+  --secondary: oklch(0.268 0 0);
   --secondary-foreground: oklch(0.98 0 0);
 
-  --muted: oklch(0.2 0.01 260);
-  --muted-foreground: oklch(0.7 0.01 260);
+  --muted: oklch(0.268 0 0);
+  --muted-foreground: oklch(0.65 0 0);
 
-  --accent: oklch(0.2 0.01 260);
+  --accent: oklch(0.268 0 0);
   --accent-foreground: oklch(0.98 0 0);
 
   --destructive: oklch(0.55 0.2 25);
 
-  --border: oklch(0.25 0.01 260); /* Subtle borders */
-  --input: oklch(0.25 0.01 260);
+  --border: oklch(0.3 0 0); /* Subtle borders */
+  --input: oklch(0.3 0 0);
   --ring: oklch(0.65 0.18 45); /* Amber focus rings */
 
-  --sidebar: oklch(0.11 0.01 260); /* Even darker sidebar */
+  --sidebar: oklch(0.145 0 0); /* Match background */
   --sidebar-foreground: oklch(0.98 0 0);
   --sidebar-primary: oklch(0.65 0.18 45);
   --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.16 0.01 260);
+  --sidebar-accent: oklch(0.268 0 0);
   --sidebar-accent-foreground: oklch(0.98 0 0);
-  --sidebar-border: oklch(0.2 0.01 260);
+  --sidebar-border: oklch(0.3 0 0);
   --sidebar-ring: oklch(0.65 0.18 45);
 }
 
