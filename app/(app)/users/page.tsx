@@ -38,14 +38,7 @@ export default async function UsersPage() {
         <h1 className="text-xl font-bold tracking-tight text-foreground">Users</h1>
       </div>
 
-      <div className="w-full">
-        <Card className="bg-card shadow-sm border-border rounded-xl overflow-hidden w-full">
-          <CardHeader className="border-b border-border/30 pb-3 pt-4">
-            <CardTitle className="text-sm font-semibold">All Users</CardTitle>
-          </CardHeader>
-          <UsersTable initialUsers={users} currentUserId={session.user.id} />
-        </Card>
-      </div>
+      <UsersTable initialUsers={users} currentUserId={session.user.id} />
     </div>
   );
 }

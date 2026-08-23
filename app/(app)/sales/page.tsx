@@ -11,14 +11,7 @@ export default async function SalesPage() {
         <h1 className="text-xl font-bold tracking-tight text-foreground">Sales History</h1>
       </div>
 
-      <div className="w-full">
-        <Card className="bg-card shadow-sm border-border rounded-xl overflow-hidden w-full">
-          <CardHeader className="border-b border-border/30 pb-3 pt-4">
-            <CardTitle className="text-sm font-semibold">All Sales</CardTitle>
-          </CardHeader>
-          <RecentSalesTable initialSales={sales} />
-        </Card>
-      </div>
+      <RecentSalesTable initialSales={sales} />
     </div>
   );
 }

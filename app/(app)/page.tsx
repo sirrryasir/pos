@@ -105,14 +105,10 @@ export default async function DashboardPage() {
       </div>
 
       <div className="w-full mt-8">
-        <Card className="bg-card shadow-sm border-border rounded-xl overflow-hidden w-full">
-          <CardHeader className="border-b border-border/30 pb-3 pt-4">
-            <CardTitle className="text-sm font-semibold">
-              Recent Sales
-            </CardTitle>
-          </CardHeader>
-          <RecentSalesTable initialSales={recentSales} />
-        </Card>
+        <div className="mb-4">
+          <h2 className="text-sm font-semibold tracking-tight text-foreground">Recent Sales</h2>
+        </div>
+        <RecentSalesTable initialSales={recentSales} />
       </div>
     </div>
   );
