@@ -6,32 +6,38 @@ export default async function ExpensesPage() {
     const expenses = await getExpenses();
 
     return (
-        <div className="container mx-auto py-10">
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-3xl font-bold">Expenses Log</h1>
+        <div className="container mx-auto py-6">
+            <div className="flex justify-between items-center mb-5">
+                <h1 className="text-xl font-bold tracking-tight text-foreground">Expenses Log</h1>
                 <ExpenseDialog />
             </div>
 
-            <div className="border rounded-md">
+            <div className="bg-card shadow-sm border border-border/50 rounded-xl overflow-hidden">
                 <Table>
                     <TableCaption>A list of operational expenses.</TableCaption>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Date</TableHead>
-                            <TableHead>Description</TableHead>
-                            <TableHead>Category</TableHead>
-                            <TableHead className="text-right">Amount</TableHead>
+                    <TableHeader className="bg-muted/10">
+                        <TableRow className="hover:bg-transparent border-border/30">
+                            <TableHead className="py-3 text-[12px] font-medium text-muted-foreground">Date</TableHead>
+                            <TableHead className="py-3 text-[12px] font-medium text-muted-foreground">Description</TableHead>
+                            <TableHead className="py-3 text-[12px] font-medium text-muted-foreground">Category</TableHead>
+                            <TableHead className="py-3 text-[12px] font-medium text-muted-foreground text-right">Amount</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {expenses.map((expense) => (
-                            <TableRow key={expense.id}>
-                                <TableCell className="whitespace-nowrap">
-                                    {expense.createdAt.toLocaleDateString()} {expense.createdAt.toLocaleTimeString()}
+                            <TableRow key={expense.id} className="border-border/30 hover:bg-muted/10 transition-colors">
+                                <TableCell className="whitespace-nowrap text-[13px] text-muted-foreground">
+                                    {expense.createdAt.toLocaleDateString()} {expense.createdAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
                                 </TableCell>
-                                <TableCell className="font-medium">{expense.description}</TableCell>
-                                <TableCell>{expense.category || "-"}</TableCell>
-                                <TableCell className="text-right font-semibold text-red-500">
+                                <TableCell className="text-[13px] font-medium text-foreground">{expense.description}</TableCell>
+                                <TableCell className="text-[13px] text-muted-foreground">
+                                    {expense.category ? (
+                                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-secondary/50 text-secondary-foreground border border-secondary/20">
+                                            {expense.category}
+                                        </span>
+                                    ) : "-"}
+                                </TableCell>
+                                <TableCell className="text-right font-medium text-destructive text-[13px]">
                                     ${expense.amount.toFixed(2)}
                                 </TableCell>
                             </TableRow>
