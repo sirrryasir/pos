@@ -7,9 +7,8 @@ export default async function ExpensesPage() {
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
-      <div className="mb-6 pb-5 border-b border-border/50 flex justify-between items-center">
+      <div className="mb-6 pb-5 border-b border-border/50">
         <h1 className="text-xl font-bold tracking-tight text-foreground">Expenses</h1>
-        <ExpenseDialog />
       </div>
       <ExpensesTable initialExpenses={expenses} />
     </div>

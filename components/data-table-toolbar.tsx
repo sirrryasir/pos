@@ -38,7 +38,7 @@ export function DataTableToolbar({
     children,
 }: DataTableToolbarProps) {
     return (
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 border-b border-border/30 bg-card overflow-hidden">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-card overflow-hidden">
             <div className="flex flex-1 items-center">
                 <div className="relative w-full sm:w-[250px]">
                     <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" strokeWidth={1.5} />

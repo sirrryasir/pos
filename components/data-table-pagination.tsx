@@ -50,7 +50,7 @@ export function DataTablePagination({
   const pageNumbers = getPageNumbers();
 
   return (
-    <div className="flex items-center justify-between px-4 py-3 border-t border-border/30 bg-card">
+    <div className="flex items-center justify-between px-4 py-3 bg-card">
       <div className="flex items-center space-x-2">
         <Select
           value={`${pageSize}`}
