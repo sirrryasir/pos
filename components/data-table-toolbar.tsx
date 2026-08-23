@@ -3,19 +3,35 @@
 import { Search, Filter, Download } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface DataTableToolbarProps {
     searchPlaceholder?: string;
+    searchQuery?: string;
     onSearch?: (value: string) => void;
     showFilter?: boolean;
     showExport?: boolean;
+    filterOptions?: string[];
+    filterValue?: string;
+    onFilterChange?: (value: string) => void;
 }
 
 export function DataTableToolbar({
     searchPlaceholder = "Filter...",
+    searchQuery,
     onSearch,
     showFilter = true,
-    showExport = false
+    showExport = false,
+    filterOptions = [],
+    filterValue = "all",
+    onFilterChange,
 }: DataTableToolbarProps) {
     return (
         <div className="flex items-center justify-between p-4 border-b border-border/30 bg-card">
@@ -24,17 +40,43 @@ export function DataTableToolbar({
                     <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
                     <Input
                         placeholder={searchPlaceholder}
+                        value={searchQuery}
                         className="pl-8 h-9 text-[13px] bg-background border-border/50"
                         onChange={(e) => onSearch?.(e.target.value)}
                     />
                 </div>
             </div>
             <div className="flex items-center space-x-2">
-                {showFilter && (
-                    <Button variant="outline" size="sm" className="h-9 px-3 border-border/50 text-[13px] hover:bg-muted/50 text-foreground font-medium">
-                        <Filter className="mr-2 h-3.5 w-3.5" strokeWidth={1.5} />
-                        Filter
-                    </Button>
+                {showFilter && filterOptions.length > 0 && (
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline" size="sm" className="h-9 px-3 border-border/50 text-[13px] hover:bg-muted/50 text-foreground font-medium">
+                                <Filter className="mr-2 h-3.5 w-3.5" strokeWidth={1.5} />
+                                {filterValue === "all" ? "Filter" : filterValue}
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-[150px]">
+                            <DropdownMenuLabel>Filter by</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuCheckboxItem
+                                checked={filterValue === "all"}
+                                onCheckedChange={() => onFilterChange?.("all")}
+                                className="text-[12px]"
+                            >
+                                All
+                            </DropdownMenuCheckboxItem>
+                            {filterOptions.map((option) => (
+                                <DropdownMenuCheckboxItem
+                                    key={option}
+                                    checked={filterValue === option}
+                                    onCheckedChange={() => onFilterChange?.(option)}
+                                    className="text-[12px]"
+                                >
+                                    {option}
+                                </DropdownMenuCheckboxItem>
+                            ))}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 )}
                 {showExport && (
                     <Button variant="outline" size="sm" className="h-9 px-3 border-border/50 text-[13px] hover:bg-muted/50 text-foreground font-medium">
