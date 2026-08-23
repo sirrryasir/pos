@@ -45,9 +45,7 @@ function NavLink({ href, label, icon: Icon, pathname, onClose, isCollapsed }: an
     if (isCollapsed) {
         return (
             <Tooltip>
-                <TooltipTrigger>
-                    {link}
-                </TooltipTrigger>
+                <TooltipTrigger render={link} />
                 <TooltipContent side="right" className="font-medium text-xs">
                     {label}
                 </TooltipContent>
@@ -138,7 +136,7 @@ export function Sidebar({ onClose, isCollapsed, onToggleCollapse }: { onClose?: 
                 {session?.user && (
                     <DropdownMenu>
                         <Tooltip>
-                            <TooltipTrigger>
+                            <TooltipTrigger render={
                                 <DropdownMenuTrigger asChild>
                                     <button className={`flex w-full items-center gap-2 p-2 hover:bg-muted/80 rounded-lg transition-all border border-transparent hover:border-border/50 text-left outline-none focus-visible:ring-2 focus-visible:ring-primary ${isCollapsed ? 'justify-center px-0' : ''}`}>
                                         <div className="h-8 w-8 flex-shrink-0 bg-primary/10 text-primary font-semibold flex items-center justify-center rounded-md border border-primary/20">
@@ -155,7 +153,7 @@ export function Sidebar({ onClose, isCollapsed, onToggleCollapse }: { onClose?: 
                                         )}
                                     </button>
                                 </DropdownMenuTrigger>
-                            </TooltipTrigger>
+                            } />
                             {isCollapsed && (
                                 <TooltipContent side="right" className="font-medium text-xs">
                                     {session.user.name}
