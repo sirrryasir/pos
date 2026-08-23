@@ -11,12 +11,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Plus, Pen, Trash2 } from "lucide-react";
+import { UserDialog } from "./user-dialog";
+import { deleteUser } from "@/actions/users";
 
 type PopulatedUser = any;
 
 export function UsersTable({ initialUsers, currentUserId }: { initialUsers: PopulatedUser[], currentUserId: string }) {
     const [users, setUsers] = useState(initialUsers);
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [selectedUser, setSelectedUser] = useState<PopulatedUser | null>(null);
     
     const handleRoleChange = async (userId: string, newRole: string) => {
         try {
@@ -26,6 +30,27 @@ export function UsersTable({ initialUsers, currentUserId }: { initialUsers: Popu
         } catch (error: any) {
             toast.error(error.message || "Failed to update role");
         }
+    };
+
+    const handleDelete = async (userId: string) => {
+        if (!confirm("Are you sure you want to delete this user?")) return;
+        try {
+            await deleteUser(userId);
+            setUsers(users.filter(u => u.id !== userId));
+            toast.success("User deleted successfully");
+        } catch (error: any) {
+            toast.error(error.message || "Failed to delete user");
+        }
+    };
+
+    const openEditDialog = (user: PopulatedUser) => {
+        setSelectedUser(user);
+        setDialogOpen(true);
+    };
+
+    const openAddDialog = () => {
+        setSelectedUser(null);
+        setDialogOpen(true);
     };
 
     const columns: ColumnDef<PopulatedUser>[] = [
@@ -62,33 +87,55 @@ export function UsersTable({ initialUsers, currentUserId }: { initialUsers: Popu
             accessorKey: "id",
             align: "right",
             cell: (u) => (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0" disabled={u.id === currentUserId}>
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => handleRoleChange(u.id, "admin")} disabled={u.role === "admin"}>
-                            Make Admin
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleRoleChange(u.id, "user")} disabled={u.role === "user"}>
-                            Make User
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                <div className="flex items-center justify-end gap-2">
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground" onClick={() => openEditDialog(u)}>
+                        <Pen className="h-4 w-4" />
+                    </Button>
+                    <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="h-8 w-8 text-muted-foreground hover:text-destructive" 
+                        onClick={() => handleDelete(u.id)}
+                        disabled={u.id === currentUserId}
+                    >
+                        <Trash2 className="h-4 w-4" />
+                    </Button>
+                </div>
             ),
         },
     ];
 
     return (
-        <DataTable 
-            data={users} 
-            columns={columns}
-            searchKey={(u) => u.name ?? ""}
-            searchPlaceholder="Search users by name..."
-            showExport={false}
-            emptyMessage="No users found."
-        />
+        <>
+            <UserDialog 
+                open={dialogOpen} 
+                onOpenChange={(open) => {
+                    setDialogOpen(open);
+                    if (!open) {
+                        // In a real app we'd fetch users again or rely on router.refresh() 
+                        // But since we use server actions with revalidatePath, the page might reload, 
+                        // or we could force a refresh. For now we rely on revalidatePath doing its job 
+                        // when the user navigates, or we can just window.location.reload() for quick sync.
+                        // Ideally we'd use useTransition + router.refresh.
+                        window.location.reload();
+                    }
+                }} 
+                user={selectedUser} 
+            />
+            <DataTable 
+                data={users} 
+                columns={columns}
+                searchKey={(u) => u.name ?? ""}
+                searchPlaceholder="Search users by name..."
+                showExport={true}
+                emptyMessage="No users found."
+                toolbarActions={
+                    <Button onClick={openAddDialog} className="bg-green-600 hover:bg-green-700 text-white h-9 px-3 text-[13px] gap-2">
+                        <Plus className="h-4 w-4" />
+                        Add New
+                    </Button>
+                }
+            />
+        </>
     );
 }

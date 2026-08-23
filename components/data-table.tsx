@@ -23,6 +23,7 @@ interface DataTableProps<T> {
     emptyMessage?: string;
     showExport?: boolean;
     exportFilenamePrefix?: string;
+    toolbarActions?: React.ReactNode;
 }
 
 export function DataTable<T>({
@@ -35,6 +36,7 @@ export function DataTable<T>({
     emptyMessage = "No results found.",
     showExport = false,
     exportFilenamePrefix = "Export",
+    toolbarActions,
 }: DataTableProps<T>) {
     const [searchQuery, setSearchQuery] = useState("");
     const [filterValue, setFilterValue] = useState("all");
@@ -137,7 +139,9 @@ export function DataTable<T>({
                 }}
                 showExport={showExport}
                 onExport={handleExport}
-            />
+            >
+                {toolbarActions}
+            </DataTableToolbar>
             
             <div className="flex-1 overflow-x-auto">
                 <Table>

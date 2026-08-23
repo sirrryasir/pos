@@ -22,6 +22,7 @@ interface DataTableToolbarProps {
     filterValue?: string;
     onFilterChange?: (value: string) => void;
     onExport?: (type: 'excel' | 'pdf') => void;
+    children?: React.ReactNode;
 }
 
 export function DataTableToolbar({
@@ -34,6 +35,7 @@ export function DataTableToolbar({
     filterValue = "all",
     onFilterChange,
     onExport,
+    children,
 }: DataTableToolbarProps) {
     return (
         <div className="flex items-center justify-between p-4 border-b border-border/30 bg-card">
@@ -106,6 +108,7 @@ export function DataTableToolbar({
                         </DropdownMenuContent>
                     </DropdownMenu>
                 )}
+                {children}
             </div>
         </div>
     );
