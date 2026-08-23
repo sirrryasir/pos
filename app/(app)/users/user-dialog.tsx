@@ -108,7 +108,7 @@ export function UserDialog({ open, onOpenChange, user }: UserDialogProps) {
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="role">Role</Label>
-                        <Select value={role} onValueChange={setRole}>
+                        <Select value={role} onValueChange={(val) => val && setRole(val)}>
                             <SelectTrigger>
                                 <SelectValue placeholder="Select role" />
                             </SelectTrigger>
@@ -140,7 +140,7 @@ export function UserDialog({ open, onOpenChange, user }: UserDialogProps) {
                     <Button variant="outline" onClick={() => { reset(); }}>
                         Reset
                     </Button>
-                    <Button onClick={handleSave} disabled={loading} className="bg-green-600 hover:bg-green-700 text-white">
+                    <Button onClick={handleSave} disabled={loading}>
                         {loading ? "Saving..." : "Save Changes"}
                     </Button>
                 </DialogFooter>

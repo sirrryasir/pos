@@ -1,15 +1,16 @@
 "use client";
 
 import { DataTable, ColumnDef } from "@/components/data-table";
-import { updateUserRole } from "@/actions/users";
 import { useState } from "react";
 import { toast } from "sonner";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, Plus, Pen, Trash2 } from "lucide-react";
 import { UserDialog } from "./user-dialog";
@@ -21,25 +22,27 @@ export function UsersTable({ initialUsers, currentUserId }: { initialUsers: Popu
     const [users, setUsers] = useState(initialUsers);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState<PopulatedUser | null>(null);
-    
-    const handleRoleChange = async (userId: string, newRole: string) => {
-        try {
-            const updated = await updateUserRole(userId, newRole);
-            setUsers(users.map(u => u.id === userId ? { ...u, role: newRole } : u));
-            toast.success("User role updated");
-        } catch (error: any) {
-            toast.error(error.message || "Failed to update role");
-        }
+    const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+    const [userToDelete, setUserToDelete] = useState<string | null>(null);
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    const confirmDelete = (userId: string) => {
+        setUserToDelete(userId);
+        setDeleteConfirmOpen(true);
     };
 
-    const handleDelete = async (userId: string) => {
-        if (!confirm("Are you sure you want to delete this user?")) return;
+    const handleDelete = async () => {
+        if (!userToDelete) return;
+        setIsDeleting(true);
         try {
-            await deleteUser(userId);
-            setUsers(users.filter(u => u.id !== userId));
+            await deleteUser(userToDelete);
+            setUsers(users.filter(u => u.id !== userToDelete));
             toast.success("User deleted successfully");
+            setDeleteConfirmOpen(false);
         } catch (error: any) {
             toast.error(error.message || "Failed to delete user");
+        } finally {
+            setIsDeleting(false);
         }
     };
 
@@ -95,7 +98,7 @@ export function UsersTable({ initialUsers, currentUserId }: { initialUsers: Popu
                         variant="ghost" 
                         size="icon" 
                         className="h-8 w-8 text-muted-foreground hover:text-destructive" 
-                        onClick={() => handleDelete(u.id)}
+                        onClick={() => confirmDelete(u.id)}
                         disabled={u.id === currentUserId}
                     >
                         <Trash2 className="h-4 w-4" />
@@ -122,6 +125,24 @@ export function UsersTable({ initialUsers, currentUserId }: { initialUsers: Popu
                 }} 
                 user={selectedUser} 
             />
+            <Dialog open={deleteConfirmOpen} onOpenChange={setDeleteConfirmOpen}>
+                <DialogContent className="sm:max-w-[400px]">
+                    <DialogHeader>
+                        <DialogTitle>Confirm Deletion</DialogTitle>
+                        <DialogDescription>
+                            Are you sure you want to delete this user? This action cannot be undone.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter className="flex justify-end gap-2 mt-4">
+                        <Button variant="outline" onClick={() => setDeleteConfirmOpen(false)} disabled={isDeleting}>
+                            Cancel
+                        </Button>
+                        <Button variant="destructive" onClick={handleDelete} disabled={isDeleting}>
+                            {isDeleting ? "Deleting..." : "Delete User"}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
             <DataTable 
                 data={users} 
                 columns={columns}
@@ -130,7 +151,7 @@ export function UsersTable({ initialUsers, currentUserId }: { initialUsers: Popu
                 showExport={true}
                 emptyMessage="No users found."
                 toolbarActions={
-                    <Button onClick={openAddDialog} className="bg-green-600 hover:bg-green-700 text-white h-9 px-3 text-[13px] gap-2">
+                    <Button onClick={openAddDialog} className="h-9 px-3 text-[13px] gap-2">
                         <Plus className="h-4 w-4" />
                         Add New
                     </Button>
