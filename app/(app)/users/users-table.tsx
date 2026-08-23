@@ -109,21 +109,12 @@ export function UsersTable({ initialUsers, currentUserId }: { initialUsers: Popu
     ];
 
     return (
-        <>
+        <div className="bg-card shadow-sm border border-border/50 rounded-xl overflow-hidden flex flex-col">
             <UserDialog 
                 open={dialogOpen} 
-                onOpenChange={(open) => {
-                    setDialogOpen(open);
-                    if (!open) {
-                        // In a real app we'd fetch users again or rely on router.refresh() 
-                        // But since we use server actions with revalidatePath, the page might reload, 
-                        // or we could force a refresh. For now we rely on revalidatePath doing its job 
-                        // when the user navigates, or we can just window.location.reload() for quick sync.
-                        // Ideally we'd use useTransition + router.refresh.
-                        window.location.reload();
-                    }
-                }} 
+                onOpenChange={setDialogOpen} 
                 user={selectedUser} 
+                onSuccess={() => window.location.reload()}
             />
             <Dialog open={deleteConfirmOpen} onOpenChange={setDeleteConfirmOpen}>
                 <DialogContent className="sm:max-w-[400px]">
@@ -157,6 +148,6 @@ export function UsersTable({ initialUsers, currentUserId }: { initialUsers: Popu
                     </Button>
                 }
             />
-        </>
+        </div>
     );
 }

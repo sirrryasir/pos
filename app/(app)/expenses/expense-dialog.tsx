@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { createExpense } from "@/actions/expenses";
 
-export function ExpenseDialog() {
+export function ExpenseDialog({ onSuccess }: { onSuccess?: () => void }) {
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [description, setDescription] = useState("");
@@ -35,6 +35,7 @@ export function ExpenseDialog() {
             setDescription("");
             setCategory("");
             setAmount("");
+            if (onSuccess) onSuccess();
         } catch (error) {
             console.error("Failed to save expense", error);
         } finally {

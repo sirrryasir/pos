@@ -50,6 +50,7 @@ export function ExpensesTable({ initialExpenses }: { initialExpenses: Expense[] 
                 showExport={true}
                 exportFilenamePrefix="Expenses"
                 emptyMessage="No expenses found."
+                toolbarActions={<ExpenseDialog onSuccess={() => window.location.reload()} />}
             />
         </div>
     );

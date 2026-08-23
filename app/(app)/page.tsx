@@ -10,13 +10,8 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
-      <div className="flex flex-col gap-1 border-b border-border/50 pb-5">
-        <h1 className="text-xl font-bold tracking-tight text-foreground">
-          Dashboard
-        </h1>
-        <p className="text-muted-foreground text-xs">
-          Overview of your business performance today.
-        </p>
+      <div className="mb-6 pb-5 border-b border-border/50">
+        <h1 className="text-xl font-bold tracking-tight text-foreground">Dashboard</h1>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

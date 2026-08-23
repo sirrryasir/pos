@@ -111,11 +111,9 @@ export function InventoryTable({ initialProducts }: { initialProducts: Product[]
         <div className="bg-card shadow-sm border border-border/50 rounded-xl overflow-hidden flex flex-col">
             <ProductDialog 
                 open={dialogOpen} 
-                onOpenChange={(open) => {
-                    setDialogOpen(open);
-                    if (!open) window.location.reload();
-                }} 
+                onOpenChange={setDialogOpen} 
                 product={selectedProduct} 
+                onSuccess={() => window.location.reload()}
             />
             <Dialog open={deleteConfirmOpen} onOpenChange={setDeleteConfirmOpen}>
                 <DialogContent className="sm:max-w-[400px]">

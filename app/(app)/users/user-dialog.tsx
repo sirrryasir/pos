@@ -14,9 +14,10 @@ interface UserDialogProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
     user?: any | null; // if null, it's Add New
+    onSuccess?: () => void;
 }
 
-export function UserDialog({ open, onOpenChange, user }: UserDialogProps) {
+export function UserDialog({ open, onOpenChange, user, onSuccess }: UserDialogProps) {
     const [loading, setLoading] = useState(false);
     
     // Form state matching Aduunyo's look (but using existing fields)
@@ -76,6 +77,7 @@ export function UserDialog({ open, onOpenChange, user }: UserDialogProps) {
                 await createUser({ name, email, password, role });
                 toast.success("User created successfully");
             }
+            if (onSuccess) onSuccess();
             onOpenChange(false);
             reset();
         } catch (error: any) {

@@ -171,7 +171,7 @@ export function PosCheckout({ products }: { products: Product[] }) {
     return (
         <div className="flex flex-col md:flex-row gap-6 w-full h-full relative">
             {/* Left side: Product List */}
-            <div className="flex flex-col flex-1 h-[calc(100vh-140px)] min-w-0">
+            <div className="flex flex-col flex-1 h-[calc(100vh-220px)] min-w-0">
                 <div className="pb-4">
                     <h2 className="text-sm font-semibold mb-3">Products</h2>
                     <div className="flex gap-2">
@@ -202,7 +202,7 @@ export function PosCheckout({ products }: { products: Product[] }) {
                 </div>
                 <div className="flex-1 overflow-hidden pt-2">
                     <ScrollArea className="h-full pr-4">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 pb-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 px-1 pt-1 pb-6">
                             {filteredProducts.map((product) => (
                                 <div 
                                     key={product.id}
@@ -230,7 +230,7 @@ export function PosCheckout({ products }: { products: Product[] }) {
             </div>
 
             {/* Right side Desktop */}
-            <div className="hidden md:flex flex-col w-[400px] lg:w-[450px] shrink-0 h-[calc(100vh-140px)]">
+            <div className="hidden md:flex flex-col w-[400px] lg:w-[450px] shrink-0 h-[calc(100vh-220px)]">
                 <div className="pb-4">
                     <h2 className="text-sm font-semibold">Checkout</h2>
                 </div>

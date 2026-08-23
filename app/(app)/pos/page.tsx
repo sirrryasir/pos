@@ -8,8 +8,10 @@ export default async function PosPage() {
     const availableProducts = products.filter(p => p.stock > 0);
 
     return (
-        <div className="container mx-auto py-6 md:h-[calc(100vh-4rem)] flex flex-col">
-            <h1 className="text-xl font-bold mb-4">Point of Sale</h1>
+        <div className="md:h-[calc(100vh-10rem)] flex flex-col space-y-6">
+            <div className="mb-6 pb-5 border-b border-border/50">
+                <h1 className="text-xl font-bold tracking-tight text-foreground">Point of Sale</h1>
+            </div>
             <div className="flex-1 flex md:overflow-hidden">
                 <PosCheckout products={availableProducts} />
             </div>

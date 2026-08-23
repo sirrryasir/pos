@@ -50,14 +50,16 @@ export function RecentSalesTable({ initialSales }: { initialSales: PopulatedSale
     ];
 
     return (
-        <DataTable 
-            data={initialSales} 
-            columns={columns}
-            searchKey={(s) => s.product?.name ?? ""}
-            searchPlaceholder="Search sales by product..."
-            showExport={true}
-            exportFilenamePrefix="SalesHistory"
-            emptyMessage="No sales yet today."
-        />
+        <div className="bg-card shadow-sm border border-border/50 rounded-xl overflow-hidden flex flex-col">
+            <DataTable 
+                data={initialSales} 
+                columns={columns}
+                searchKey={(s) => s.product?.name ?? ""}
+                searchPlaceholder="Search sales by product..."
+                showExport={true}
+                exportFilenamePrefix="SalesHistory"
+                emptyMessage="No sales yet today."
+            />
+        </div>
     );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,11 +18,13 @@ import type { Product } from "@prisma/client";
 export function ProductDialog({ 
     open, 
     onOpenChange, 
-    product 
+    product,
+    onSuccess
 }: { 
     open: boolean; 
     onOpenChange: (open: boolean) => void; 
     product?: Product | null; 
+    onSuccess?: () => void;
 }) {
     const [loading, setLoading] = useState(false);
     const [name, setName] = useState(product?.name || "");
@@ -30,6 +32,15 @@ export function ProductDialog({
     const [price, setPrice] = useState(product?.price?.toString() || "");
     const [stock, setStock] = useState(product?.stock?.toString() || "");
     const isEdit = !!product;
+
+    useEffect(() => {
+        if (open) {
+            setName(product?.name || "");
+            setCategory(product?.category || "");
+            setPrice(product?.price?.toString() || "");
+            setStock(product?.stock?.toString() || "");
+        }
+    }, [open, product]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -53,6 +64,7 @@ export function ProductDialog({
                 setPrice("");
                 setStock("");
             }
+            if (onSuccess) onSuccess();
         } catch (error) {
             console.error("Failed to save product", error);
         } finally {
