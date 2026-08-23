@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, Store, Box, Wallet, LogOut, Package2, X, Users, ReceiptText } from "lucide-react";
+import { LayoutGrid, Store, Box, Wallet, LogOut, Package2, X, Users, ReceiptText, ChevronsUpDown, UserCircle } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 
@@ -13,6 +13,15 @@ const navItems = [
     { href: "/inventory", label: "Inventory", icon: Box },
     { href: "/expenses", label: "Expenses", icon: Wallet },
 ];
+
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function Sidebar({ onClose }: { onClose?: () => void }) {
     const pathname = usePathname();
@@ -104,14 +113,41 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
                 )}
             </nav>
 
-            <div className="p-4 border-t border-border/50 bg-background/30">
-                <button 
-                    onClick={handleLogout}
-                    className="flex w-full items-center gap-3 px-3 py-2.5 text-sm text-destructive/90 hover:bg-destructive/10 hover:text-destructive rounded-lg transition-all border border-transparent hover:border-destructive/20 font-medium"
-                >
-                    <LogOut strokeWidth={1.5} className="h-4 w-4" />
-                    Logout
-                </button>
+            <div className="p-3 border-t border-border/50 bg-background/30 mt-auto">
+                {session?.user && (
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <button className="flex w-full items-center gap-2 p-2 hover:bg-muted/80 rounded-lg transition-all border border-transparent hover:border-border/50 text-left outline-none focus-visible:ring-2 focus-visible:ring-primary">
+                                <div className="h-8 w-8 flex-shrink-0 bg-primary/10 text-primary font-semibold flex items-center justify-center rounded-md border border-primary/20">
+                                    {session.user.name?.charAt(0).toUpperCase() || "U"}
+                                </div>
+                                <div className="flex flex-col flex-1 overflow-hidden">
+                                    <span className="text-[13px] font-semibold text-foreground truncate">{session.user.name}</span>
+                                    <span className="text-[11px] text-muted-foreground truncate leading-none">{session.user.email}</span>
+                                </div>
+                                <ChevronsUpDown className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                            </button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-[calc(100%-1rem)] min-w-56" align="center" side="top" sideOffset={8}>
+                            <DropdownMenuLabel className="font-normal">
+                                <div className="flex flex-col space-y-1">
+                                    <p className="text-sm font-medium leading-none text-foreground">{session.user.name}</p>
+                                    <p className="text-xs leading-none text-muted-foreground mt-1">{session.user.email}</p>
+                                </div>
+                            </DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem className="cursor-pointer gap-2" onClick={() => {}}>
+                                <UserCircle className="h-4 w-4" />
+                                <span>Account</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem className="cursor-pointer text-destructive focus:text-destructive focus:bg-destructive/10 gap-2" onClick={handleLogout}>
+                                <LogOut className="h-4 w-4" />
+                                <span>Log out</span>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                )}
             </div>
         </aside>
     );

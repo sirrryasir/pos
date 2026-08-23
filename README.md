@@ -64,11 +64,11 @@ bun dev
 ```
 Open [http://localhost:3000](http://localhost:3000) in your browser to access the system.
 
-## 📝 Usage Guide
+## Usage Guide
 - **Login:** Use the default admin account to log in.
 - **Manage Users:** Navigate to `Management > Users` to elevate new accounts to `admin` status.
 - **Import Inventory:** Go to Inventory, click "Import CSV", and upload a list of products.
 - **Checkout:** Use the POS page to process sales quickly.
 
-## 📄 License
+## License
 This project is proprietary and confidential.
