@@ -99,6 +99,7 @@ export function ImportDialog() {
                             type="file" 
                             accept=".csv"
                             onChange={handleFileChange}
+                            className="cursor-pointer file:cursor-pointer file:bg-muted file:text-foreground file:border-0 file:border-r file:border-border file:px-4 file:py-2 file:mr-4 file:-ml-3 file:-my-3 hover:file:bg-muted/80 h-10"
                         />
                     </div>
                 </div>
