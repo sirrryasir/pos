@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, ShoppingCart, Package, Receipt, LogOut, Package2 } from "lucide-react";
+import { LayoutDashboard, ShoppingCart, Package, Receipt, LogOut, Package2, X } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 
@@ -13,7 +13,7 @@ const navItems = [
     { href: "/expenses", label: "Expenses", icon: Receipt },
 ];
 
-export function Sidebar() {
+export function Sidebar({ onClose }: { onClose?: () => void }) {
     const pathname = usePathname();
     const router = useRouter();
 
@@ -26,15 +26,25 @@ export function Sidebar() {
     };
 
     return (
-        <aside className="w-64 border-r border-border/50 bg-sidebar flex flex-col h-screen fixed left-0 top-0 shadow-2xl z-50">
-            <div className="p-6 border-b border-border/50 flex items-center gap-3">
-                <div className="h-10 w-10 bg-primary/20 rounded-xl flex items-center justify-center border border-primary/30">
-                    <Package2 className="h-6 w-6 text-primary" />
+        <aside className="w-full h-full border-r border-border/50 bg-sidebar flex flex-col shadow-2xl">
+            <div className="p-6 border-b border-border/50 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 bg-primary/20 rounded-xl flex items-center justify-center border border-primary/30">
+                        <Package2 className="h-6 w-6 text-primary" />
+                    </div>
+                    <div>
+                        <h1 className="text-lg font-bold text-foreground leading-tight tracking-tight">POS</h1>
+                        <p className="text-xs text-muted-foreground font-medium">Business Engine</p>
+                    </div>
                 </div>
-                <div>
-                    <h1 className="text-lg font-bold text-foreground leading-tight tracking-tight">POS</h1>
-                    <p className="text-xs text-muted-foreground font-medium">Business Engine</p>
-                </div>
+                {onClose && (
+                    <button 
+                        onClick={onClose}
+                        className="md:hidden p-2 rounded-lg text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+                    >
+                        <X className="h-5 w-5" />
+                    </button>
+                )}
             </div>
             
             <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
@@ -46,6 +56,7 @@ export function Sidebar() {
                         <Link 
                             key={item.href} 
                             href={item.href}
+                            onClick={onClose}
                             className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all font-medium ${
                                 isActive 
                                 ? 'bg-primary/10 text-primary border border-primary/20 shadow-sm' 

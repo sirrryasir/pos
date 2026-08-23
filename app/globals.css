@@ -46,7 +46,48 @@
 }
 
 :root {
-  /* Default to dark mode equivalent for Ardaykaab premium vibe */
+  /* Light mode for a clean premium vibe */
+  --background: oklch(0.98 0 0); /* Off white / very light gray */
+  --foreground: oklch(0.13 0.01 260); /* Very dark text */
+  
+  --card: oklch(1 0 0); /* Pure white cards */
+  --card-foreground: oklch(0.13 0.01 260);
+  
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.13 0.01 260);
+  
+  --primary: oklch(0.65 0.18 45); /* Orange/Amber primary */
+  --primary-foreground: oklch(0.98 0 0); /* White on orange */
+  
+  --secondary: oklch(0.95 0 0); 
+  --secondary-foreground: oklch(0.13 0.01 260);
+  
+  --muted: oklch(0.95 0 0);
+  --muted-foreground: oklch(0.40 0.01 260);
+  
+  --accent: oklch(0.95 0 0);
+  --accent-foreground: oklch(0.13 0.01 260);
+  
+  --destructive: oklch(0.55 0.2 25);
+  
+  --border: oklch(0.90 0 0); /* Subtle borders */
+  --input: oklch(0.90 0 0);
+  --ring: oklch(0.65 0.18 45); /* Amber focus rings */
+  
+  --radius: 0.75rem; /* Larger radius for modern look */
+  
+  --sidebar: oklch(0.98 0 0); /* Match background */
+  --sidebar-foreground: oklch(0.13 0.01 260);
+  --sidebar-primary: oklch(0.65 0.18 45);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.95 0 0);
+  --sidebar-accent-foreground: oklch(0.13 0.01 260);
+  --sidebar-border: oklch(0.90 0 0);
+  --sidebar-ring: oklch(0.65 0.18 45);
+}
+
+.dark {
+  /* Dark mode equivalent for Ardaykaab premium vibe */
   --background: oklch(0.13 0.01 260); /* Very dark, slightly tinted */
   --foreground: oklch(0.98 0 0); /* Off white */
   
@@ -73,8 +114,6 @@
   --border: oklch(0.25 0.01 260); /* Subtle borders */
   --input: oklch(0.25 0.01 260);
   --ring: oklch(0.65 0.18 45); /* Amber focus rings */
-  
-  --radius: 0.75rem; /* Larger radius for modern look */
   
   --sidebar: oklch(0.11 0.01 260); /* Even darker sidebar */
   --sidebar-foreground: oklch(0.98 0 0);

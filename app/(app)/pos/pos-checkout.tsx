@@ -62,7 +62,7 @@ export function PosCheckout({ products }: { products: Product[] }) {
     return (
         <div className="grid md:grid-cols-2 gap-6 w-full h-full">
             {/* Left side: Product List */}
-            <Card className="flex flex-col h-[calc(100vh-140px)]">
+            <Card className="flex flex-col h-[500px] md:h-[calc(100vh-140px)]">
                 <CardHeader>
                     <CardTitle>Products</CardTitle>
                     <div className="relative">
@@ -78,7 +78,7 @@ export function PosCheckout({ products }: { products: Product[] }) {
                 </CardHeader>
                 <CardContent className="flex-1 overflow-hidden p-0 px-6">
                     <ScrollArea className="h-full">
-                        <div className="grid grid-cols-2 gap-4 pb-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-6">
                             {filteredProducts.map((product) => (
                                 <div 
                                     key={product.id}
@@ -96,7 +96,7 @@ export function PosCheckout({ products }: { products: Product[] }) {
                                 </div>
                             ))}
                             {filteredProducts.length === 0 && (
-                                <div className="col-span-2 text-center py-10 text-muted-foreground">
+                                <div className="col-span-1 sm:col-span-2 text-center py-10 text-muted-foreground">
                                     No products found
                                 </div>
                             )}
@@ -106,7 +106,7 @@ export function PosCheckout({ products }: { products: Product[] }) {
             </Card>
 
             {/* Right side: Checkout Cart */}
-            <Card className="flex flex-col h-[calc(100vh-140px)]">
+            <Card className="flex flex-col h-[500px] md:h-[calc(100vh-140px)]">
                 <CardHeader>
                     <CardTitle>Checkout</CardTitle>
                 </CardHeader>
