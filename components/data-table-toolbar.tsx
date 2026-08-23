@@ -38,19 +38,19 @@ export function DataTableToolbar({
     children,
 }: DataTableToolbarProps) {
     return (
-        <div className="flex items-center justify-between p-4 border-b border-border/30 bg-card">
-            <div className="flex flex-1 items-center space-x-2">
-                <div className="relative w-[150px] sm:w-[250px]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 border-b border-border/30 bg-card overflow-hidden">
+            <div className="flex flex-1 items-center">
+                <div className="relative w-full sm:w-[250px]">
                     <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
                     <Input
                         placeholder={searchPlaceholder}
                         value={searchQuery}
-                        className="pl-8 h-9 text-[13px] bg-background border-border/50"
+                        className="pl-8 h-9 text-[13px] bg-background border-border/50 w-full"
                         onChange={(e) => onSearch?.(e.target.value)}
                     />
                 </div>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex flex-wrap items-center gap-2">
                 {showFilter && filterOptions.length > 0 && (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
