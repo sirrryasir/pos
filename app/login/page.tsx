@@ -93,6 +93,18 @@ export default function LoginPage() {
                         >
                             {loading ? "Signing in..." : "Sign in to Dashboard"}
                         </Button>
+
+                        <Button 
+                            className="w-full h-12 rounded-xl text-base font-medium" 
+                            type="button" 
+                            variant="outline"
+                            onClick={() => {
+                                setEmail("test2user@pos.com");
+                                setPassword("password123");
+                            }}
+                        >
+                            Auto-Fill Demo Credentials
+                        </Button>
                     </form>
                 </div>
                 
