@@ -87,16 +87,6 @@ export function PosCheckout({ products }: { products: Product[] }) {
                 {selectedProduct ? (
                     <div className="space-y-6">
                         <div className="p-4 bg-background/50 border border-border/50 rounded-xl flex justify-between items-center relative">
-                            {isMobile && (
-                                <Button 
-                                    variant="ghost" 
-                                    size="icon" 
-                                    className="absolute -top-12 right-0 bg-background/50 backdrop-blur-md rounded-full shadow-sm border border-border/50 text-muted-foreground h-8 w-8"
-                                    onClick={() => setSelectedProductId("")}
-                                >
-                                    <X className="h-4 w-4" />
-                                </Button>
-                            )}
                             <div>
                                 <h3 className="font-bold text-base text-foreground">{selectedProduct.name}</h3>
                                 <p className="text-sm text-muted-foreground mt-0.5">
@@ -257,7 +247,15 @@ export function PosCheckout({ products }: { products: Product[] }) {
                     />
                     
                     {/* Slide up panel */}
-                    <div className="relative z-50 w-full animate-in slide-in-from-bottom-full duration-300">
+                    <div className="relative z-50 w-full animate-in slide-in-from-bottom-full duration-300 pt-16">
+                        <Button 
+                            variant="outline" 
+                            size="icon" 
+                            className="absolute top-4 right-4 bg-background border-border shadow-sm rounded-full h-10 w-10 z-50 text-foreground"
+                            onClick={() => setSelectedProductId("")}
+                        >
+                            <X className="h-5 w-5" />
+                        </Button>
                         {renderCheckoutCart(true)}
                     </div>
                 </div>
