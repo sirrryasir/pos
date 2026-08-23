@@ -13,27 +13,32 @@ const geistMono = Geist_Mono({
 });
 
 import { ThemeProvider } from "@/components/theme-provider";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 export const metadata: Metadata = {
-  title: "POS",
-  description: "Point of Sale System",
+  title: "POS System",
+  description: "Modern POS System",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={`${outfit.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col bg-background text-foreground" suppressHydrationWarning>
-        <ThemeProvider 
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${outfit.variable} ${geistMono.variable} antialiased`}
+      >
+        <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <TooltipProvider delay={100}>
+            {children}
+          </TooltipProvider>
           <Toaster />
         </ThemeProvider>
       </body>
