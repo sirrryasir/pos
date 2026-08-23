@@ -1,8 +1,8 @@
-# Adeeg Zone POS System
+# POS System
 
 A modern, fast, and secure Point of Sale (POS) system built with Next.js, Tailwind CSS, Prisma, and PostgreSQL. Designed for retail and small businesses to manage inventory, process sales, and track expenses effortlessly.
 
-## 🚀 Features
+## Features
 
 - **Dashboard:** Real-time overview of sales, expenses, and net profit.
 - **Multi-User Auth:** Secure authentication powered by Better Auth, with Admin and Standard User roles.
@@ -13,7 +13,7 @@ A modern, fast, and secure Point of Sale (POS) system built with Next.js, Tailwi
 - **Reporting:** Visual charts and metrics for revenue, top products, and cashier performance.
 - **Dark/Light Mode:** Full theming support via `next-themes`.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Framework:** [Next.js 16](https://nextjs.org/) (App Router)
 - **Styling:** [Tailwind CSS](https://tailwindcss.com/) & [shadcn/ui](https://ui.shadcn.com/)
@@ -23,7 +23,7 @@ A modern, fast, and secure Point of Sale (POS) system built with Next.js, Tailwi
 - **Icons:** [Lucide React](https://lucide.dev/)
 - **Charts:** [Recharts](https://recharts.org/)
 
-## 📦 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Node.js 18+ or Bun (Recommended)

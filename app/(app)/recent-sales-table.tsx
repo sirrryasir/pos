@@ -52,6 +52,7 @@ export function RecentSalesTable({ initialSales }: { initialSales: PopulatedSale
             searchKey={(s) => s.product?.name ?? ""}
             searchPlaceholder="Search sales by product..."
             showExport={true}
+            exportFilenamePrefix="SalesHistory"
             emptyMessage="No sales yet today."
         />
     );

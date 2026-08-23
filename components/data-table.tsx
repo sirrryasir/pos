@@ -21,6 +21,7 @@ interface DataTableProps<T> {
     filterOptions?: string[];
     emptyMessage?: string;
     showExport?: boolean;
+    exportFilenamePrefix?: string;
 }
 
 export function DataTable<T>({
@@ -32,6 +33,7 @@ export function DataTable<T>({
     filterOptions = [],
     emptyMessage = "No results found.",
     showExport = false,
+    exportFilenamePrefix = "Export",
 }: DataTableProps<T>) {
     const [searchQuery, setSearchQuery] = useState("");
     const [filterValue, setFilterValue] = useState("all");
@@ -59,6 +61,9 @@ export function DataTable<T>({
     const paginatedData = processedData.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
 
     const handleExport = (type: 'excel' | 'pdf') => {
+        const dateStr = new Date().toISOString().split('T')[0];
+        const filename = `${exportFilenamePrefix}_${dateStr}`;
+        
         if (type === 'excel') {
             import("papaparse").then((Papa) => {
                 const csv = Papa.unparse(processedData.map((item: any) => {
@@ -74,7 +79,7 @@ export function DataTable<T>({
                 const url = URL.createObjectURL(blob);
                 const link = document.createElement("a");
                 link.setAttribute("href", url);
-                link.setAttribute("download", "export.csv");
+                link.setAttribute("download", `${filename}.csv`);
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
@@ -96,7 +101,7 @@ export function DataTable<T>({
                         body: tableRows,
                     });
                     
-                    doc.save("export.pdf");
+                    doc.save(`${filename}.pdf`);
                 });
             });
         }

@@ -52,6 +52,7 @@ export function InventoryTable({ initialProducts }: { initialProducts: Product[]
                 filterKey="category"
                 filterOptions={categories}
                 showExport={true}
+                exportFilenamePrefix="Inventory"
                 emptyMessage="No products found."
             />
         </div>

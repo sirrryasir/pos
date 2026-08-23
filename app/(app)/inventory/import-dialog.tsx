@@ -78,12 +78,12 @@ export function ImportDialog() {
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
+            <DialogTrigger render={
                 <Button variant="outline" className="gap-2">
                     <UploadCloud className="h-4 w-4" />
                     Import CSV
                 </Button>
-            </DialogTrigger>
+            } />
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
                     <DialogTitle>Import Products</DialogTitle>

@@ -10,6 +10,8 @@ const COLORS = ['#f97316', '#3b82f6', '#10b981', '#6366f1', '#ec4899'];
 export function ReportsDashboard({ data }: { data: any }) {
     
     const handleExportExcel = () => {
+        const dateStr = new Date().toISOString().split('T')[0];
+        const filename = `RevenueReport_${dateStr}.csv`;
         import("papaparse").then((Papa) => {
             const csv1 = Papa.unparse(data.revenueData);
             const csv2 = Papa.unparse(data.topProducts);
@@ -20,7 +22,7 @@ export function ReportsDashboard({ data }: { data: any }) {
             const url = URL.createObjectURL(blob);
             const link = document.createElement("a");
             link.setAttribute("href", url);
-            link.setAttribute("download", "revenue_report.csv");
+            link.setAttribute("download", filename);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -28,6 +30,8 @@ export function ReportsDashboard({ data }: { data: any }) {
     };
 
     const handleExportPDF = () => {
+        const dateStr = new Date().toISOString().split('T')[0];
+        const filename = `BusinessReport_${dateStr}.pdf`;
         import("jspdf").then((jsPDF) => {
             import("jspdf-autotable").then((autoTable) => {
                 const doc = new jsPDF.default();
@@ -47,7 +51,7 @@ export function ReportsDashboard({ data }: { data: any }) {
                     body: data.topProducts.map((p: any) => [p.name, p.qty, `$${p.total.toFixed(2)}`]),
                 });
                 
-                doc.save("business_report.pdf");
+                doc.save(filename);
             });
         });
     };

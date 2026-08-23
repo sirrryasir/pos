@@ -46,6 +46,7 @@ export function ExpensesTable({ initialExpenses }: { initialExpenses: Expense[] 
                 filterKey="category"
                 filterOptions={categories}
                 showExport={true}
+                exportFilenamePrefix="Expenses"
                 emptyMessage="No expenses found."
             />
         </div>
