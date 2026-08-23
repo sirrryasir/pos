@@ -30,7 +30,7 @@ function NavLink({ href, label, icon: Icon, pathname, onClose, isCollapsed }: an
             href={href}
             onClick={onClose}
             className={`flex items-center gap-3 py-2 rounded-lg text-[13px] transition-all duration-200 ${
-                isCollapsed ? 'justify-center px-0' : 'px-3'
+                isCollapsed ? 'justify-center px-0 w-9 h-9 mx-auto' : 'px-3 w-full'
             } ${
                 isActive 
                     ? "bg-muted/80 text-foreground font-medium" 
@@ -72,7 +72,7 @@ export function Sidebar({ onClose, isCollapsed, onToggleCollapse }: { onClose?: 
     const isAdmin = (session?.user as any)?.role === "admin";
 
     return (
-        <aside className="w-full h-full border-r border-border/10 bg-background flex flex-col transition-all duration-300">
+        <aside className="w-full h-full border border-border/50 bg-background flex flex-col transition-all duration-300 md:rounded-2xl shadow-sm overflow-hidden">
             <div className={`p-4 border-b border-border/10 flex items-center justify-between gap-3 h-16 ${isCollapsed ? 'flex-col justify-center gap-2 p-2' : ''}`}>
                 <div className={`flex items-center gap-3 ${isCollapsed ? 'justify-center w-full' : ''}`}>
                     <div className="h-8 w-8 bg-primary/20 rounded-lg flex items-center justify-center border border-primary/30 flex-shrink-0">
@@ -93,14 +93,6 @@ export function Sidebar({ onClose, isCollapsed, onToggleCollapse }: { onClose?: 
                             className="md:hidden p-2 rounded-lg text-muted-foreground hover:bg-muted/50 hover:text-foreground flex-shrink-0"
                         >
                             <X className="h-5 w-5" />
-                        </button>
-                    )}
-                    {onToggleCollapse && (
-                        <button
-                            onClick={onToggleCollapse}
-                            className={`hidden md:flex p-1.5 rounded-lg text-muted-foreground hover:bg-muted/50 hover:text-foreground flex-shrink-0 transition-all`}
-                        >
-                            {isCollapsed ? <PanelLeftOpen className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
                         </button>
                     )}
                 </div>
@@ -138,8 +130,8 @@ export function Sidebar({ onClose, isCollapsed, onToggleCollapse }: { onClose?: 
                         <Tooltip>
                             <TooltipTrigger render={
                                 <DropdownMenuTrigger asChild>
-                                    <button className={`flex w-full items-center gap-2 p-2 hover:bg-muted/80 rounded-lg transition-all border border-transparent hover:border-border/50 text-left outline-none focus-visible:ring-2 focus-visible:ring-primary ${isCollapsed ? 'justify-center px-0' : ''}`}>
-                                        <div className="h-8 w-8 flex-shrink-0 bg-primary/10 text-primary font-semibold flex items-center justify-center rounded-md border border-primary/20">
+                                    <button className={`flex items-center gap-2 p-2 hover:bg-muted/80 transition-all border border-transparent hover:border-border/50 text-left outline-none focus-visible:ring-2 focus-visible:ring-primary ${isCollapsed ? 'justify-center px-0 w-9 h-9 mx-auto rounded-full' : 'w-full rounded-lg'}`}>
+                                        <div className="h-8 w-8 flex-shrink-0 bg-muted/80 text-foreground font-medium flex items-center justify-center rounded-full border border-border/50">
                                             {session.user.name?.charAt(0).toUpperCase() || "U"}
                                         </div>
                                         {!isCollapsed && (
