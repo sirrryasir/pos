@@ -11,13 +11,19 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
-import { createProduct, updateProduct, deleteProduct } from "@/actions/products";
+import { createProduct, updateProduct } from "@/actions/products";
 import type { Product } from "@prisma/client";
 
-export function ProductDialog({ product }: { product?: Product }) {
-    const [open, setOpen] = useState(false);
+export function ProductDialog({ 
+    open, 
+    onOpenChange, 
+    product 
+}: { 
+    open: boolean; 
+    onOpenChange: (open: boolean) => void; 
+    product?: Product | null; 
+}) {
     const [loading, setLoading] = useState(false);
     const [name, setName] = useState(product?.name || "");
     const [category, setCategory] = useState(product?.category || "");
@@ -40,7 +46,7 @@ export function ProductDialog({ product }: { product?: Product }) {
             } else {
                 await createProduct(data);
             }
-            setOpen(false);
+            onOpenChange(false);
             if (!isEdit) {
                 setName("");
                 setCategory("");
@@ -54,26 +60,8 @@ export function ProductDialog({ product }: { product?: Product }) {
         }
     };
 
-    const handleDelete = async () => {
-        if (!product) return;
-        setLoading(true);
-        try {
-            await deleteProduct(product.id);
-            setOpen(false);
-        } catch (error) {
-            console.error("Failed to delete product", error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger render={
-                <Button variant={isEdit ? "outline" : "default"} size={isEdit ? "sm" : "default"}>
-                    {isEdit ? "Edit" : "Add Product"}
-                </Button>
-            } />
+        <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[425px]">
                 <form onSubmit={handleSubmit}>
                     <DialogHeader>
@@ -128,12 +116,10 @@ export function ProductDialog({ product }: { product?: Product }) {
                             />
                         </div>
                     </div>
-                    <DialogFooter className="sm:justify-between">
-                        {isEdit ? (
-                            <Button type="button" variant="destructive" onClick={handleDelete} disabled={loading}>
-                                Delete
-                            </Button>
-                        ) : <div></div>}
+                    <DialogFooter className="sm:justify-end">
+                        <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+                            Cancel
+                        </Button>
                         <Button type="submit" disabled={loading}>
                             {loading ? "Saving..." : "Save changes"}
                         </Button>

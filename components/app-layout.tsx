@@ -28,7 +28,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
       {/* Main Content */}
       <div className={`flex-1 flex flex-col min-h-screen w-full transition-all duration-300 ease-in-out ${isCollapsed ? "md:pl-[80px]" : "md:pl-64"}`}>
         {/* Header */}
-        <header className="sticky top-0 z-30 flex h-20 items-center gap-4 bg-transparent px-4 md:px-8">
+        <header className="sticky top-0 z-30 flex h-16 md:h-20 items-center gap-4 bg-background/80 backdrop-blur-md border-b border-border/40 px-4 md:px-8">
           <Button 
             variant="ghost" 
             size="icon" 
