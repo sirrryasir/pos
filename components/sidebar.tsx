@@ -127,31 +127,35 @@ export function Sidebar({ onClose, isCollapsed, onToggleCollapse }: { onClose?: 
                 {/* User Profile */}
                 {session?.user && (
                     <DropdownMenu>
-                        <Tooltip>
-                            <TooltipTrigger render={
-                                <DropdownMenuTrigger asChild>
-                                    <button className={`flex items-center gap-2 p-2 hover:bg-muted/80 transition-all border border-transparent hover:border-border/50 text-left outline-none focus-visible:ring-2 focus-visible:ring-primary ${isCollapsed ? 'justify-center px-0 w-9 h-9 mx-auto rounded-full' : 'w-full rounded-lg'}`}>
-                                        <div className="h-8 w-8 flex-shrink-0 bg-muted/80 text-foreground font-medium flex items-center justify-center rounded-full border border-border/50">
-                                            {session.user.name?.charAt(0).toUpperCase() || "U"}
-                                        </div>
-                                        {!isCollapsed && (
-                                            <>
-                                                <div className="flex flex-col flex-1 overflow-hidden">
-                                                    <span className="text-[13px] font-semibold text-foreground truncate">{session.user.name}</span>
-                                                    <span className="text-[11px] text-muted-foreground truncate leading-none">{session.user.email}</span>
-                                                </div>
-                                                <ChevronsUpDown className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                                            </>
-                                        )}
-                                    </button>
-                                </DropdownMenuTrigger>
-                            } />
-                            {isCollapsed && (
+                        {isCollapsed ? (
+                            <Tooltip>
+                                <TooltipTrigger render={
+                                    <DropdownMenuTrigger asChild>
+                                        <button className="flex items-center gap-2 p-2 hover:bg-muted/80 transition-all border border-transparent hover:border-border/50 text-left outline-none focus-visible:ring-2 focus-visible:ring-primary justify-center px-0 w-9 h-9 mx-auto rounded-full">
+                                            <div className="h-8 w-8 flex-shrink-0 bg-muted/80 text-foreground font-medium flex items-center justify-center rounded-full border border-border/50">
+                                                {session.user.name?.charAt(0).toUpperCase() || "U"}
+                                            </div>
+                                        </button>
+                                    </DropdownMenuTrigger>
+                                } />
                                 <TooltipContent side="right" className="font-medium text-xs">
                                     {session.user.name}
                                 </TooltipContent>
-                            )}
-                        </Tooltip>
+                            </Tooltip>
+                        ) : (
+                            <DropdownMenuTrigger asChild>
+                                <button className="flex w-full items-center gap-2 p-2 hover:bg-muted/80 rounded-lg transition-all border border-transparent hover:border-border/50 text-left outline-none focus-visible:ring-2 focus-visible:ring-primary">
+                                    <div className="h-8 w-8 flex-shrink-0 bg-muted/80 text-foreground font-medium flex items-center justify-center rounded-full border border-border/50">
+                                        {session.user.name?.charAt(0).toUpperCase() || "U"}
+                                    </div>
+                                    <div className="flex-1 text-left overflow-hidden">
+                                        <p className="text-sm font-medium leading-none text-foreground truncate">{session.user.name}</p>
+                                        <p className="text-[11px] text-muted-foreground truncate">{session.user.email}</p>
+                                    </div>
+                                    <ChevronsUpDown className="h-4 w-4 flex-shrink-0 text-muted-foreground ml-auto" />
+                                </button>
+                            </DropdownMenuTrigger>
+                        )}
                         <DropdownMenuContent className={isCollapsed ? "w-56" : "w-[calc(100%-1rem)] min-w-56"} align={isCollapsed ? "start" : "center"} side={isCollapsed ? "right" : "top"} sideOffset={8}>
                             <DropdownMenuLabel className="font-normal">
                                 <div className="flex flex-col space-y-1">

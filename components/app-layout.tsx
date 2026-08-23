@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Sidebar } from "@/components/sidebar";
-import { Menu, Package2 } from "lucide-react";
+import { Menu, Package2, PanelLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -53,7 +53,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                 onClick={() => setIsCollapsed(!isCollapsed)}
                 title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
               >
-                <Menu className="h-4 w-4" />
+                <PanelLeft className="h-4 w-4" />
                 <span className="sr-only">Toggle Sidebar</span>
               </Button>
             </div>
