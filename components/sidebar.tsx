@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, Store, Box, Wallet, LogOut, Package2, X } from "lucide-react";
+import { LayoutGrid, Store, Box, Wallet, LogOut, Package2, X, Users, ReceiptText } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 
 const navItems = [
     { href: "/", label: "Dashboard", icon: LayoutGrid },
     { href: "/pos", label: "Point of Sale", icon: Store },
+    { href: "/sales", label: "Sales History", icon: ReceiptText },
     { href: "/inventory", label: "Inventory", icon: Box },
     { href: "/expenses", label: "Expenses", icon: Wallet },
 ];
@@ -16,6 +17,7 @@ const navItems = [
 export function Sidebar({ onClose }: { onClose?: () => void }) {
     const pathname = usePathname();
     const router = useRouter();
+    const { data: session } = authClient.useSession();
 
     if (pathname === "/login") return null;
 
@@ -24,6 +26,8 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
         router.push("/login");
         router.refresh();
     };
+
+    const isAdmin = (session?.user as any)?.role === "admin";
 
     return (
         <aside className="w-full h-full border-r border-border/50 bg-sidebar flex flex-col shadow-2xl">
@@ -57,17 +61,35 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
                             key={item.href} 
                             href={item.href}
                             onClick={onClose}
-                            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all text-sm font-medium ${
+                            className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all ${
                                 isActive 
-                                ? 'bg-primary/10 text-primary border border-primary/20 shadow-sm' 
-                                : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground border border-transparent'
+                                    ? "bg-primary text-primary-foreground shadow-sm shadow-primary/20 font-semibold" 
+                                    : "text-muted-foreground hover:text-foreground hover:bg-muted/80"
                             }`}
                         >
-                            <Icon strokeWidth={1.5} className={`h-4 w-4 ${isActive ? 'text-primary' : 'text-muted-foreground'}`} />
+                            <Icon className="h-4 w-4" strokeWidth={isActive ? 2 : 1.5} />
                             {item.label}
                         </Link>
                     );
                 })}
+
+                {isAdmin && (
+                    <>
+                        <div className="text-[11px] font-semibold text-muted-foreground mb-3 mt-6 uppercase tracking-wider px-2">Management</div>
+                        <Link 
+                            href="/users"
+                            onClick={onClose}
+                            className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all ${
+                                pathname === "/users" 
+                                    ? "bg-primary text-primary-foreground shadow-sm shadow-primary/20 font-semibold" 
+                                    : "text-muted-foreground hover:text-foreground hover:bg-muted/80"
+                            }`}
+                        >
+                            <Users className="h-4 w-4" strokeWidth={pathname === "/users" ? 2 : 1.5} />
+                            Users
+                        </Link>
+                    </>
+                )}
             </nav>
 
             <div className="p-4 border-t border-border/50 bg-background/30">

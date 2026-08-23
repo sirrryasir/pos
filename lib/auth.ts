@@ -12,6 +12,15 @@ export const auth = betterAuth({
     emailAndPassword: {
         enabled: true
     },
+    user: {
+        additionalFields: {
+            role: {
+                type: "string",
+                required: false,
+                defaultValue: "user"
+            }
+        }
+    },
     trustedOrigins: ["https://enactable-unstoried-lizbeth.ngrok-free.app", "https://cosmetics-lil-owners-statutes.trycloudflare.com"],
     plugins: [
         dash()

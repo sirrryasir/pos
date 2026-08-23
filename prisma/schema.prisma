@@ -15,8 +15,10 @@ model User {
   image         String?
   createdAt     DateTime
   updatedAt     DateTime
+  role          String    @default("user")
   sessions      Session[]
   accounts      Account[]
+  sales         Sale[]
 }
 
 model Session {
@@ -79,6 +81,8 @@ model Sale {
   totalAmount    Float
   paymentMethod  String   // "Zaad", "eDahab", "Cash"
   customerName   String?
+  userId         String?
+  user           User?    @relation(fields: [userId], references: [id])
   createdAt      DateTime @default(now())
   product        Product  @relation(fields: [productId], references: [id])
 }

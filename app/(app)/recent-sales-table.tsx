@@ -37,6 +37,12 @@ export function RecentSalesTable({ initialSales }: { initialSales: PopulatedSale
             align: "right",
             cell: (s) => <span className="font-medium text-foreground">${s.totalAmount.toFixed(2)}</span>,
         },
+        {
+            header: "Cashier",
+            accessorKey: "user",
+            align: "right",
+            cell: (s) => <span className="text-muted-foreground">{s.user?.name || "System"}</span>,
+        },
     ];
 
     return (

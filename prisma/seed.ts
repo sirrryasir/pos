@@ -4,27 +4,39 @@ import { auth } from '../lib/auth';
 async function main() {
     console.log('Starting seed...');
 
-    // 1. Create Admin User using Better Auth to ensure password hashing works
+    // 1. Create Admin User
+    console.log('Creating Admin account...');
     try {
-        console.log('Cleaning up existing users...');
-        await prisma.user.deleteMany({
-            where: { email: { in: ['testuser@pos.com', 'test2user@pos.com', 'admin@pos.com'] } }
+        const adminEmail = 'admin@pos.com';
+        const existingAdmin = await prisma.user.findUnique({
+            where: { email: adminEmail }
         });
 
-        // Use BetterAuth API to correctly handle password hashing and account creation
-        const res = await auth.api.signUpEmail({
-            body: {
-                email: "test2user@pos.com",
-                password: "password123",
-                name: "Test User",
-            }
-        } as any);
-        console.log('Test user created successfully');
+        if (!existingAdmin) {
+            // Use BetterAuth API to correctly handle password hashing and account creation
+            const res = await auth.api.signUpEmail({
+                body: {
+                    email: adminEmail,
+                    password: "password123",
+                    name: "Admin User",
+                }
+            } as any);
+            console.log('Admin user created successfully');
+        } else {
+            console.log('Admin user already exists');
+        }
+
+        // Ensure the role is set to 'admin'
+        await prisma.user.update({
+            where: { email: adminEmail },
+            data: { role: 'admin' }
+        });
+        console.log('Admin role ensured');
     } catch (error) {
-        console.error('Error creating test user:', error);
+        console.error('Error creating admin user:', error);
     }
 
-    // 2. Create Products
+    // 2. Create Products using upsert
     console.log('Seeding products...');
     const products = [
         { name: "Shaamboo Cad", category: "Cosmetics", price: 5.50, stock: 100 },
@@ -35,20 +47,36 @@ async function main() {
     ];
 
     for (const p of products) {
-        await prisma.product.create({
-            data: p
+        const existing = await prisma.product.findFirst({
+            where: { name: p.name }
         });
+
+        if (!existing) {
+            await prisma.product.create({
+                data: p
+            });
+        }
     }
 
     // 3. Create Expenses
     console.log('Seeding expenses...');
-    await prisma.expense.createMany({
-        data: [
-            { description: "Kiro Dukaan - August", amount: 200, category: "Rent" },
-            { description: "Koronto", amount: 45, category: "Utilities" },
-            { description: "Nadiifin", amount: 10, category: "Maintenance" }
-        ]
-    });
+    const expenses = [
+        { description: "Kiro Dukaan - August", amount: 200, category: "Rent" },
+        { description: "Koronto", amount: 45, category: "Utilities" },
+        { description: "Nadiifin", amount: 10, category: "Maintenance" }
+    ];
+
+    for (const e of expenses) {
+        const existing = await prisma.expense.findFirst({
+            where: { description: e.description }
+        });
+
+        if (!existing) {
+            await prisma.expense.create({
+                data: e
+            });
+        }
+    }
 
     console.log('Seeding finished.');
 }
