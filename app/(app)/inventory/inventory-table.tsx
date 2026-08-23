@@ -25,6 +25,7 @@ export function InventoryTable({ initialProducts }: { initialProducts: Product[]
             accessorKey: "price",
             align: "right",
             cell: (p) => <span className="font-medium">${p.price.toFixed(2)}</span>,
+            exportValue: (p) => p.price.toString(),
         },
         {
             header: "Stock",

@@ -11,11 +11,13 @@ export function RecentSalesTable({ initialSales }: { initialSales: PopulatedSale
             header: "Time",
             accessorKey: "createdAt",
             cell: (s) => <span className="text-muted-foreground">{new Date(s.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>,
+            exportValue: (s) => new Date(s.createdAt).toLocaleString(),
         },
         {
             header: "Product",
             accessorKey: "product",
             cell: (s) => <span className="font-medium text-foreground">{s.product.name}</span>,
+            exportValue: (s) => s.product?.name || "Unknown Product",
         },
         {
             header: "Qty",
@@ -36,12 +38,14 @@ export function RecentSalesTable({ initialSales }: { initialSales: PopulatedSale
             accessorKey: "totalAmount",
             align: "right",
             cell: (s) => <span className="font-medium text-foreground">${s.totalAmount.toFixed(2)}</span>,
+            exportValue: (s) => `$${s.totalAmount.toFixed(2)}`,
         },
         {
             header: "Cashier",
             accessorKey: "user",
             align: "right",
             cell: (s) => <span className="text-muted-foreground">{s.user?.name || "System"}</span>,
+            exportValue: (s) => s.user?.name || "System",
         },
     ];
 

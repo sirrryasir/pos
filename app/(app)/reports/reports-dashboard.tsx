@@ -41,6 +41,7 @@ export function ReportsDashboard({ data }: { data: any }) {
                     startY: 25,
                     head: [["Date", "Revenue"]],
                     body: data.revenueData.map((d: any) => [d.date, `$${d.amount.toFixed(2)}`]),
+                    headStyles: { fillColor: [249, 115, 22] }, // Brand orange
                 });
 
                 doc.addPage();
@@ -49,6 +50,7 @@ export function ReportsDashboard({ data }: { data: any }) {
                     startY: 25,
                     head: [["Product Name", "Qty Sold", "Total Revenue"]],
                     body: data.topProducts.map((p: any) => [p.name, p.qty, `$${p.total.toFixed(2)}`]),
+                    headStyles: { fillColor: [249, 115, 22] }, // Brand orange
                 });
                 
                 doc.save(filename);
@@ -121,13 +123,13 @@ export function ReportsDashboard({ data }: { data: any }) {
                                     fill="#8884d8"
                                     dataKey="total"
                                     nameKey="name"
-                                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                                    label={({ name, percent = 0 }: any) => `${name} ${(percent * 100).toFixed(0)}%`}
                                 >
                                     {data.cashierData.map((entry: any, index: number) => (
                                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                     ))}
                                 </Pie>
-                                <Tooltip formatter={(value: number) => `$${value.toFixed(2)}`} contentStyle={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))', color: 'hsl(var(--foreground))' }} />
+                                <Tooltip formatter={(value: any) => typeof value === 'number' ? `$${value.toFixed(2)}` : `$${value}`} contentStyle={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))', color: 'hsl(var(--foreground))' }} />
                             </PieChart>
                         </ResponsiveContainer>
                     </CardContent>

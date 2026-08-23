@@ -10,6 +10,7 @@ export function ExpensesTable({ initialExpenses }: { initialExpenses: Expense[] 
             header: "Date",
             accessorKey: "createdAt",
             cell: (e) => <span className="whitespace-nowrap text-muted-foreground">{new Date(e.createdAt).toLocaleDateString()} {new Date(e.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>,
+            exportValue: (e) => new Date(e.createdAt).toLocaleString(),
         },
         {
             header: "Description",
@@ -30,6 +31,7 @@ export function ExpensesTable({ initialExpenses }: { initialExpenses: Expense[] 
             accessorKey: "amount",
             align: "right",
             cell: (e) => <span className="font-medium text-destructive">${e.amount.toFixed(2)}</span>,
+            exportValue: (e) => `$${e.amount.toFixed(2)}`,
         },
     ];
 

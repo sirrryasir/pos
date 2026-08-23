@@ -82,9 +82,9 @@ export function PosCheckout({ products }: { products: Product[] }) {
   };
 
     return (
-        <div className="grid md:grid-cols-2 gap-6 w-full h-full">
+        <div className="flex flex-col md:flex-row gap-6 w-full h-full">
             {/* Left side: Product List */}
-            <div className="flex flex-col h-[500px] md:h-[calc(100vh-140px)]">
+            <div className="flex flex-col flex-1 h-[500px] md:h-[calc(100vh-140px)] min-w-0">
                 <div className="pb-4">
                     <h2 className="text-sm font-semibold mb-3">Products</h2>
                     <div className="flex gap-2">
@@ -93,14 +93,14 @@ export function PosCheckout({ products }: { products: Product[] }) {
                             <Input
                                 type="search"
                                 placeholder="Search products..."
-                                className="pl-8 bg-card border-none shadow-sm"
+                                className="pl-8 bg-card border-border/50 shadow-sm"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
                         </div>
                         {categories.length > 0 && (
                             <Select value={selectedCategory} onValueChange={(val) => setSelectedCategory(val ?? "all")}>
-                                <SelectTrigger className="w-[130px] bg-card border-none shadow-sm">
+                                <SelectTrigger className="w-[130px] bg-card border-border/50 shadow-sm">
                                     <SelectValue placeholder="Category" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -115,7 +115,7 @@ export function PosCheckout({ products }: { products: Product[] }) {
                 </div>
                 <div className="flex-1 overflow-hidden pt-2">
                     <ScrollArea className="h-full pr-4">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pb-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 pb-6">
                             {filteredProducts.map((product) => (
                                 <div 
                                     key={product.id}
@@ -123,17 +123,17 @@ export function PosCheckout({ products }: { products: Product[] }) {
                                         setSelectedProductId(product.id);
                                         setQuantity(1); // Reset quantity when changing product
                                     }}
-                                    className={`p-4 bg-card rounded-xl cursor-pointer hover:bg-card/80 transition-colors ${selectedProductId === product.id ? 'ring-2 ring-primary bg-primary/5' : ''}`}
+                                    className={`p-4 bg-card rounded-xl cursor-pointer hover:bg-card/80 transition-all border ${selectedProductId === product.id ? 'border-primary ring-1 ring-primary bg-primary/5' : 'border-border/50'}`}
                                 >
-                                    <h3 className="font-medium text-[13px] line-clamp-1">{product.name}</h3>
-                                    <div className="flex justify-between items-center mt-2">
-                                        <span className="font-semibold text-foreground text-[13px]">${product.price.toFixed(2)}</span>
-                                        <span className="text-[11px] text-muted-foreground">Stock: {product.stock}</span>
+                                    <h3 className="font-medium text-[13px] line-clamp-1 text-foreground">{product.name}</h3>
+                                    <div className="flex justify-between items-center mt-3">
+                                        <span className="font-semibold text-foreground text-[14px]">${product.price.toFixed(2)}</span>
+                                        <span className="text-[11px] text-muted-foreground font-medium">Stock: {product.stock}</span>
                                     </div>
                                 </div>
                             ))}
                             {filteredProducts.length === 0 && (
-                                <div className="col-span-1 sm:col-span-2 text-center py-10 text-muted-foreground">
+                                <div className="col-span-full text-center py-10 text-muted-foreground">
                                     No products found
                                 </div>
                             )}
@@ -143,84 +143,93 @@ export function PosCheckout({ products }: { products: Product[] }) {
             </div>
 
             {/* Right side: Checkout Cart */}
-            <div className="flex flex-col h-[500px] md:h-[calc(100vh-140px)]">
+            <div className="flex flex-col w-full md:w-[400px] lg:w-[450px] shrink-0 h-[500px] md:h-[calc(100vh-140px)]">
                 <div className="pb-4">
                     <h2 className="text-sm font-semibold">Checkout</h2>
                 </div>
-                <div className="flex-1 space-y-6 overflow-y-auto bg-card rounded-xl p-6 shadow-sm">
-                    {selectedProduct ? (
-                        <div className="space-y-6">
-                            <div className="p-4 bg-background/50 rounded-lg flex justify-between items-center">
-                <div>
-                  <h3 className="font-bold text-lg">{selectedProduct.name}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    ${selectedProduct.price.toFixed(2)} each
-                  </p>
-                </div>
-                <div className="text-right">
-                  <p className="font-bold text-xl">${totalAmount.toFixed(2)}</p>
-                </div>
-              </div>
+                <div className="flex flex-col flex-1 bg-card rounded-xl shadow-sm border border-border/50 overflow-hidden">
+                    <div className="flex-1 p-6 overflow-y-auto space-y-6">
+                        {selectedProduct ? (
+                            <div className="space-y-6">
+                                <div className="p-4 bg-background/50 border border-border/50 rounded-xl flex justify-between items-center">
+                                    <div>
+                                        <h3 className="font-bold text-base text-foreground">{selectedProduct.name}</h3>
+                                        <p className="text-sm text-muted-foreground mt-0.5">
+                                            ${selectedProduct.price.toFixed(2)} each
+                                        </p>
+                                    </div>
+                                    <div className="text-right">
+                                        <p className="font-bold text-xl text-foreground">${totalAmount.toFixed(2)}</p>
+                                    </div>
+                                </div>
 
-              <div className="space-y-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="quantity">Quantity</Label>
-                  <Input
-                    id="quantity"
-                    type="number"
-                    min="1"
-                    max={selectedProduct.stock}
-                    value={quantity}
-                    onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
-                  />
-                  <p className="text-xs text-muted-foreground text-right">
-                    Max available: {selectedProduct.stock}
-                  </p>
-                </div>
+                                <div className="space-y-5">
+                                    <div className="grid gap-2">
+                                        <div className="flex justify-between items-center">
+                                            <Label htmlFor="quantity">Quantity</Label>
+                                            <span className="text-xs text-muted-foreground font-medium">
+                                                Max: {selectedProduct.stock}
+                                            </span>
+                                        </div>
+                                        <Input
+                                            id="quantity"
+                                            type="number"
+                                            min="1"
+                                            max={selectedProduct.stock}
+                                            value={quantity}
+                                            className="bg-background/50 h-10"
+                                            onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
+                                        />
+                                    </div>
 
-                <div className="grid gap-2">
-                  <Label htmlFor="payment">Payment Method</Label>
-                  <Select
-                    value={paymentMethod}
-                    onValueChange={(val) => setPaymentMethod(val || "Zaad")}
-                  >
-                    <SelectTrigger id="payment">
-                      <SelectValue placeholder="Select method" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Zaad">Zaad</SelectItem>
-                      <SelectItem value="eDahab">eDahab</SelectItem>
-                      <SelectItem value="Cash">Cash</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="payment">Payment Method</Label>
+                                        <Select
+                                            value={paymentMethod}
+                                            onValueChange={(val) => setPaymentMethod(val || "Zaad")}
+                                        >
+                                            <SelectTrigger id="payment" className="bg-background/50 h-10">
+                                                <SelectValue placeholder="Select method" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="Zaad">Zaad</SelectItem>
+                                                <SelectItem value="eDahab">eDahab</SelectItem>
+                                                <SelectItem value="Cash">Cash</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
 
-                <div className="grid gap-2">
-                  <Label htmlFor="customer">Customer Name (Optional)</Label>
-                  <Input
-                    id="customer"
-                    placeholder="Enter customer name"
-                    value={customerName}
-                    onChange={(e) => setCustomerName(e.target.value)}
-                  />
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="h-full flex items-center justify-center text-muted-foreground">
-              Select a product to start checkout
-            </div>
-          )}
-        </div>
-        <div className="pt-4">
-                    <Button 
-                        className="w-full text-lg h-12 rounded-xl" 
-                        size="lg"
-                        onClick={handleCheckout}
-                        disabled={!selectedProduct || loading}
-                    >
-                        {loading ? "Processing..." : `Process Sale ($${totalAmount.toFixed(2)})`}
-                    </Button>
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="customer">Customer Name <span className="text-muted-foreground font-normal">(Optional)</span></Label>
+                                        <Input
+                                            id="customer"
+                                            placeholder="Enter customer name"
+                                            value={customerName}
+                                            className="bg-background/50 h-10"
+                                            onChange={(e) => setCustomerName(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="h-full flex flex-col items-center justify-center text-muted-foreground space-y-3">
+                                <div className="h-12 w-12 rounded-full bg-secondary/50 flex items-center justify-center">
+                                    <Search className="h-6 w-6 text-muted-foreground/50" />
+                                </div>
+                                <p className="text-sm font-medium">Select a product to start checkout</p>
+                            </div>
+                        )}
+                    </div>
+                    <div className="p-5 border-t border-border/50 bg-background/30 mt-auto">
+                        <Button 
+                            className="w-full text-[15px] font-semibold h-12 rounded-xl shadow-sm" 
+                            size="lg"
+                            onClick={handleCheckout}
+                            disabled={!selectedProduct || loading}
+                        >
+                            {loading ? "Processing..." : `Process Sale ($${totalAmount.toFixed(2)})`}
+                        </Button>
+                    </div>
                 </div>
             </div>
         </div>

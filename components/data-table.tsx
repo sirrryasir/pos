@@ -9,6 +9,7 @@ export interface ColumnDef<T> {
     header: string;
     accessorKey?: keyof T;
     cell?: (item: T) => React.ReactNode;
+    exportValue?: (item: T) => string;
     align?: "left" | "center" | "right";
 }
 
@@ -69,8 +70,13 @@ export function DataTable<T>({
                 const csv = Papa.unparse(processedData.map((item: any) => {
                     const row: Record<string, any> = {};
                     columns.forEach((col) => {
-                        if (col.accessorKey) {
-                            row[col.header] = item[col.accessorKey];
+                        if (col.accessorKey || col.exportValue) {
+                            if (col.exportValue) {
+                                row[col.header] = col.exportValue(item);
+                            } else {
+                                const val = item[col.accessorKey!];
+                                row[col.header] = typeof val === 'object' && val !== null ? JSON.stringify(val) : String(val ?? "-");
+                            }
                         }
                     });
                     return row;
@@ -88,17 +94,23 @@ export function DataTable<T>({
             import("jspdf").then((jsPDF) => {
                 import("jspdf-autotable").then((autoTable) => {
                     const doc = new jsPDF.default();
-                    const tableColumn = columns.filter(col => col.accessorKey).map(col => col.header);
+                    const exportColumns = columns.filter(col => col.accessorKey || col.exportValue);
+                    const tableColumn = exportColumns.map(col => col.header);
                     const tableRows = processedData.map((item: any) => {
-                        return columns.filter(col => col.accessorKey).map(col => {
+                        return exportColumns.map(col => {
+                            if (col.exportValue) {
+                                return col.exportValue(item);
+                            }
                             const val = item[col.accessorKey!];
-                            return typeof val === 'object' ? JSON.stringify(val) : String(val ?? "-");
+                            return typeof val === 'object' && val !== null ? JSON.stringify(val) : String(val ?? "-");
                         });
                     });
                     
                     autoTable.default(doc, {
                         head: [tableColumn],
                         body: tableRows,
+                        headStyles: { fillColor: [249, 115, 22] }, // Brand orange
+                        styles: { fontSize: 9 },
                     });
                     
                     doc.save(`${filename}.pdf`);
