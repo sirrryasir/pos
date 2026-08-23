@@ -3,6 +3,8 @@ import { getRecentSales } from "@/actions/sales";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DollarSign, TrendingUp, TrendingDown, Receipt } from "lucide-react";
+import { DataTableToolbar } from "@/components/data-table-toolbar";
+import { DataTablePagination } from "@/components/data-table-pagination";
 
 export default async function DashboardPage() {
     const analytics = await getDashboardAnalytics();
@@ -16,7 +18,7 @@ export default async function DashboardPage() {
             </div>
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Card className="bg-card shadow-sm border-border border-t-2 border-t-primary rounded-xl overflow-hidden transition-all">
+                <Card className="bg-card shadow-sm border-border rounded-xl overflow-hidden transition-all">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Total Sales (Today)</CardTitle>
                         <DollarSign className="h-4 w-4 text-primary" strokeWidth={1.5} />
@@ -29,7 +31,7 @@ export default async function DashboardPage() {
                     </CardContent>
                 </Card>
                 
-                <Card className="bg-card shadow-sm border-border border-t-2 border-t-destructive rounded-xl overflow-hidden transition-all">
+                <Card className="bg-card shadow-sm border-border rounded-xl overflow-hidden transition-all">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Expenses (Today)</CardTitle>
                         <Receipt className="h-4 w-4 text-destructive" strokeWidth={1.5} />
@@ -39,7 +41,7 @@ export default async function DashboardPage() {
                     </CardContent>
                 </Card>
                 
-                <Card className={`bg-card shadow-sm border-border border-t-2 ${analytics.today.netProfit >= 0 ? 'border-t-green-500' : 'border-t-destructive'} rounded-xl overflow-hidden transition-all`}>
+                <Card className={`bg-card shadow-sm border-border rounded-xl overflow-hidden transition-all`}>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Net Profit (Today)</CardTitle>
                         {analytics.today.netProfit >= 0 ? (
@@ -55,7 +57,7 @@ export default async function DashboardPage() {
                     </CardContent>
                 </Card>
                 
-                <Card className={`bg-card shadow-sm border-border border-t-2 ${analytics.thisMonth.netProfit >= 0 ? 'border-t-green-500' : 'border-t-destructive'} rounded-xl overflow-hidden transition-all`}>
+                <Card className={`bg-card shadow-sm border-border rounded-xl overflow-hidden transition-all`}>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Profit (This Month)</CardTitle>
                         {analytics.thisMonth.netProfit >= 0 ? (
@@ -80,6 +82,7 @@ export default async function DashboardPage() {
                     <CardHeader className="border-b border-border/30 pb-3 pt-4">
                         <CardTitle className="text-sm font-semibold">Recent Sales</CardTitle>
                     </CardHeader>
+                    <DataTableToolbar searchPlaceholder="Search sales..." showExport={false} showFilter={false} />
                     <CardContent className="p-0">
                         <Table>
                             <TableHeader className="bg-muted/10">
@@ -115,6 +118,7 @@ export default async function DashboardPage() {
                             </TableBody>
                         </Table>
                     </CardContent>
+                    <DataTablePagination totalItems={recentSales.length} />
                 </Card>
             </div>
         </div>

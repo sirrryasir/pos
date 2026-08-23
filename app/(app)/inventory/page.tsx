@@ -1,6 +1,8 @@
 import { getProducts } from "@/actions/products";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ProductDialog } from "./product-dialog";
+import { DataTableToolbar } from "@/components/data-table-toolbar";
+import { DataTablePagination } from "@/components/data-table-pagination";
 
 export default async function InventoryPage() {
     const products = await getProducts();
@@ -12,7 +14,8 @@ export default async function InventoryPage() {
                 <ProductDialog />
             </div>
 
-            <div className="bg-card shadow-sm border border-border/50 rounded-xl overflow-hidden">
+            <div className="bg-card shadow-sm border border-border/50 rounded-xl overflow-hidden flex flex-col">
+                <DataTableToolbar searchPlaceholder="Filter products..." showExport={true} />
                 <Table>
                     <TableCaption>A list of your current inventory.</TableCaption>
                     <TableHeader className="bg-muted/10">
@@ -44,6 +47,7 @@ export default async function InventoryPage() {
                         ))}
                     </TableBody>
                 </Table>
+                <DataTablePagination totalItems={products.length} />
             </div>
         </div>
     );

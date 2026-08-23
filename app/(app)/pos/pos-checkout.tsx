@@ -62,9 +62,9 @@ export function PosCheckout({ products }: { products: Product[] }) {
     return (
         <div className="grid md:grid-cols-2 gap-6 w-full h-full">
             {/* Left side: Product List */}
-            <Card className="flex flex-col h-[500px] md:h-[calc(100vh-140px)]">
-                <CardHeader>
-                    <CardTitle>Products</CardTitle>
+            <Card className="flex flex-col h-[500px] md:h-[calc(100vh-140px)] bg-card shadow-sm border border-border/50 rounded-xl overflow-hidden">
+                <CardHeader className="border-b border-border/30 pb-4">
+                    <CardTitle className="text-sm font-semibold">Products</CardTitle>
                     <div className="relative">
                         <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                         <Input
@@ -76,7 +76,7 @@ export function PosCheckout({ products }: { products: Product[] }) {
                         />
                     </div>
                 </CardHeader>
-                <CardContent className="flex-1 overflow-hidden p-0 px-6">
+                <CardContent className="flex-1 overflow-hidden p-0 px-4 pt-4">
                     <ScrollArea className="h-full">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-6">
                             {filteredProducts.map((product) => (
@@ -86,12 +86,12 @@ export function PosCheckout({ products }: { products: Product[] }) {
                                         setSelectedProductId(product.id);
                                         setQuantity(1); // Reset quantity when changing product
                                     }}
-                                    className={`p-4 border rounded-lg cursor-pointer hover:border-primary transition-colors ${selectedProductId === product.id ? 'border-primary bg-primary/5' : ''}`}
+                                    className={`p-4 border border-border/30 rounded-xl cursor-pointer hover:border-primary/50 transition-colors ${selectedProductId === product.id ? 'border-primary bg-primary/5' : ''}`}
                                 >
-                                    <h3 className="font-semibold line-clamp-1">{product.name}</h3>
+                                    <h3 className="font-medium text-[13px] line-clamp-1">{product.name}</h3>
                                     <div className="flex justify-between items-center mt-2">
-                                        <span className="font-medium">${product.price.toFixed(2)}</span>
-                                        <span className="text-xs text-muted-foreground">Stock: {product.stock}</span>
+                                        <span className="font-semibold text-foreground text-[13px]">${product.price.toFixed(2)}</span>
+                                        <span className="text-[11px] text-muted-foreground">Stock: {product.stock}</span>
                                     </div>
                                 </div>
                             ))}
@@ -106,9 +106,9 @@ export function PosCheckout({ products }: { products: Product[] }) {
             </Card>
 
             {/* Right side: Checkout Cart */}
-            <Card className="flex flex-col h-[500px] md:h-[calc(100vh-140px)]">
-                <CardHeader>
-                    <CardTitle>Checkout</CardTitle>
+            <Card className="flex flex-col h-[500px] md:h-[calc(100vh-140px)] bg-card shadow-sm border border-border/50 rounded-xl overflow-hidden">
+                <CardHeader className="border-b border-border/30 pb-4">
+                    <CardTitle className="text-sm font-semibold">Checkout</CardTitle>
                 </CardHeader>
                 <CardContent className="flex-1 space-y-6 overflow-y-auto">
                     {selectedProduct ? (

@@ -1,6 +1,8 @@
 import { getExpenses } from "@/actions/expenses";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ExpenseDialog } from "./expense-dialog";
+import { DataTableToolbar } from "@/components/data-table-toolbar";
+import { DataTablePagination } from "@/components/data-table-pagination";
 
 export default async function ExpensesPage() {
     const expenses = await getExpenses();
@@ -12,7 +14,8 @@ export default async function ExpensesPage() {
                 <ExpenseDialog />
             </div>
 
-            <div className="bg-card shadow-sm border border-border/50 rounded-xl overflow-hidden">
+            <div className="bg-card shadow-sm border border-border/50 rounded-xl overflow-hidden flex flex-col">
+                <DataTableToolbar searchPlaceholder="Filter expenses..." showExport={true} />
                 <Table>
                     <TableCaption>A list of operational expenses.</TableCaption>
                     <TableHeader className="bg-muted/10">
@@ -51,6 +54,7 @@ export default async function ExpensesPage() {
                         )}
                     </TableBody>
                 </Table>
+                <DataTablePagination totalItems={expenses.length} />
             </div>
         </div>
     );
