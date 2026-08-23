@@ -156,7 +156,7 @@ export function Sidebar({ onClose, isCollapsed, onToggleCollapse }: { onClose?: 
                                 </button>
                             </DropdownMenuTrigger>
                         )}
-                        <DropdownMenuContent className={isCollapsed ? "w-56" : "w-[calc(100%-1rem)] min-w-56"} align={isCollapsed ? "start" : "center"} side={isCollapsed ? "right" : "top"} sideOffset={8}>
+                        <DropdownMenuContent className={isCollapsed ? "w-56" : "w-[calc(100%-1rem)] min-w-56"} align={isCollapsed ? "end" : "center"} side={isCollapsed ? "right" : "top"} sideOffset={8}>
                             <DropdownMenuLabel className="font-normal">
                                 <div className="flex flex-col space-y-1">
                                     <p className="text-sm font-medium leading-none text-foreground">{session.user.name}</p>
